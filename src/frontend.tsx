@@ -8,11 +8,32 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "./App";
+import { BrowserRouter } from "react-router";
+import { createTheme, ThemeProvider } from "@mui/material";
+import { blue, green } from "@mui/material/colors";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: blue[900],
+    },
+    secondary: {
+      main: green[400],
+    },
+    background: {
+      paper: "#fcf3c7",
+    },
+  },
+});
 
 const elem = document.getElementById("root")!;
 const app = (
   <StrictMode>
-    <App />
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </ThemeProvider>
   </StrictMode>
 );
 

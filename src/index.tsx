@@ -1,72 +1,38 @@
 import { serve } from "bun";
 import index from "./index.html";
 import { Database } from "bun:sqlite";
-import { User, UserResponse } from "./types";
+import { FoodOption, FormResponse, User } from "./types";
+import initialise_db from "db/initialise_db";
+import { getAllResponses } from "db/admin_functions";
 
 const db = new Database("./db/db.sqlite");
 
-db.exec("PRAGMA journal_mode = WAL;");
+initialise_db(db);
 
-db.run(`DROP TABLE IF EXISTS food;`);
-
-db.run(`
-  CREATE TABLE food (
-    food_id INTEGER PRIMARY KEY,
-    description TEXT
-  );`)
-
-const insertFood = db.prepare(`INSERT INTO food (description) VALUES ($desc)`);
-
-const insertFoods = db.transaction(foods=>{
-  for (const food of foods) insertFood.run(food);
-});
-
-insertFoods([
-  {$desc: 'Yummy Yummy Gravy'},
-  {$desc: 'Yummy Yummy Chicken'},
-  {$desc: 'Yummy Yummy Beef'},
-]);
-
-db.run(`
-  CREATE TABLE IF NOT EXISTS 'users'(
-    user_id INTEGER PRIMARY KEY,
-    user_code TEXT NOT NULL,
-    user_primary_name TEXT NOT NULL,
-    user_allowed_partner INTEGER,
-    user_partner_name TEXT
-  )  
-`);
-
-db.run(
-  `
-  CREATE TABLE IF NOT EXISTS 'responses'(
-    response_id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL,
-    attending INTEGER NOT NULL,
-    meal_selection INTEGER NOT NULL,
-    partner_name TEXT,
-    partner_meal_selection INTEGER,
-    children INTEGER NOT NULL,
-    notes TEXT,
-    user_id INTEGER NOT NULL,
-    FOREIGN KEY (user_id)
-      REFERENCES users (user_id)
-        ON DELETE CASCADE
-  );
-`
-);
+console.log(getAllResponses(db));
 
 const server = serve({
   routes: {
     // Serve index.html for all unmatched routes.
     "/*": index,
 
+    "/images/:image": async (req: Bun.BunRequest<"/images/:image">) => {
+      const imageName = req.params.image;
+      const imagePath = `./src/images/${imageName}`;
+      try {
+        return new Response(await Bun.file(imagePath).bytes(), {
+          headers: { "Content-Type": "image/jpeg" },
+        });
+      } catch (e) {
+        return new Response(`Image not found: ${(e as Error).message}`, { status: 404 });
+      }
+    },
+
     "/api/submit": {
       async POST(req: Bun.BunRequest) {
-        const { searchParams } = new URL(req.url);
+        const userId = req.headers.get("user-id");
 
-        const userCode = searchParams.get("user_code");
-        if (!userCode) {
+        if (!userId) {
           return new Response(
             "No user_code query param provided. Ensure you entered the whole URL you were provided",
             {
@@ -77,7 +43,7 @@ const server = serve({
         }
 
         const user = (await (
-          await fetch(`/api/get_user/${userCode}`)
+          await fetch(`${req.headers.get("host")}/api/get_user/${userId}`)
         ).json()) as User | undefined;
 
         if (!user) {
@@ -93,37 +59,111 @@ const server = serve({
         const {
           name,
           attending,
-          meal_selection,
+          meal_choice,
+          partner_attending,
           partner_name,
-          partner_meal_selection,
+          partner_meal_choice,
           children,
           notes,
-        } = (await req.json()) as UserResponse;
+        } = (await req.json()) as FormResponse;
 
-        return new Response(db.query(
+        const submit = db.transaction(() => {
+          db.query(
+            `
+          UPDATE users
+          SET name = ?, partner_name = ?
+          WHERE user_id = ?;
           `
-          INSERT INTO responses (name,attending,meal_selection,partner_name,partner_meal_selection,children,notes,user_id)
-          VALUES (?1,?2,?3,?4,?5,?6,?7,?8);
-          `
-        ).get(
-          name,
-          attending,
-          meal_selection,
-          partner_name,
-          partner_meal_selection,
-          children,
-          notes,
-          user.user_id
-        ) as string);
+          ).run(name, partner_name, user.user_id);
 
+          db.query(
+            `
+          INSERT OR REPLACE INTO responses (user_id, attending, partner_attending, children, notes)
+          VALUES (
+            ?,
+            ?,
+            ?,
+            ?,
+            ?)
+          ;
+          `
+          ).run(
+            user.user_id,
+            attending ? 1 : 0,
+            partner_attending ? 1 : 0,
+            children || 0,
+            notes || "",
+          );
+          const insertMealChoices = db.prepare(
+            `
+          INSERT OR REPLACE INTO meal_choices (for_partner, user_id, meal_type, food_id)
+          VALUES (?, ?, ?, ?);
+          `
+          );
+          if (attending) {
+            insertMealChoices.run(
+              0,
+              user.user_id!,
+              "starter",
+              meal_choice.starter
+            );
+            insertMealChoices.run(0, user.user_id!, "main", meal_choice.main);
+            insertMealChoices.run(
+              0,
+              user.user_id!,
+              "dessert",
+              meal_choice.dessert
+            );
+          } else {
+            db.run(`DELETE FROM meal_choices WHERE user_id=?`,[user.user_id]);
+          }
+
+          if (partner_attending) {
+            insertMealChoices.run(
+              1,
+              user.user_id!,
+              "starter",
+              partner_meal_choice.starter
+            );
+            insertMealChoices.run(
+              1,
+              user.user_id!,
+              "main",
+              partner_meal_choice.main
+            );
+            insertMealChoices.run(
+              1,
+              user.user_id!,
+              "dessert",
+              partner_meal_choice.dessert
+            );
+          } else {
+            db.run(`DELETE FROM meal_choices WHERE user_id=? AND for_partner=1`,[user.user_id]);
+          }
+        });
+        try {
+          submit();
+          return new Response("Response submitted successfully", {
+            status: 200,
+            headers: { "Content-Type": "text/plain" },
+          });
+        } catch (error) {
+          console.error("Error updating user or response:", error);
+          return new Response("Error updating user or response", {
+            status: 500,
+            headers: { "Content-Type": "text/plain" },
+          });
+        }
       },
     },
 
-    "/api/get_user/:user_code": async (req) => {
+    "/api/get_user/:code": async (
+      req: Bun.BunRequest<"/api/get_user/:code">
+    ) => {
       const result = db
-        .query("SELECT * FROM users WHERE user_code=$user_code")
+        .query("SELECT * FROM users WHERE code=$code OR user_id=$code")
         .get({
-          $user_code: req.params.user_code,
+          $code: req.params.code,
         }) as User;
       if (!result) {
         return new Response(
@@ -136,6 +176,29 @@ const server = serve({
       }
       return Response.json(result);
     },
+
+    "/api/get_food": async () => {
+      const result = db.query(`SELECT * FROM food;`).all() as {
+        type: string;
+        description: string;
+        food_id: number;
+      }[];
+
+      const foodOptions = {
+        starter: result.filter(
+          (item) => item.type === "starter"
+        ) as FoodOption[],
+        main: result.filter((item) => item.type === "main") as FoodOption[],
+        dessert: result.filter(
+          (item) => item.type === "dessert"
+        ) as FoodOption[],
+      };
+
+      return Response.json(foodOptions);
+    },
+  },
+  error(error) {
+    return new Response(error.message);
   },
 
   development: process.env.NODE_ENV !== "production" && {
