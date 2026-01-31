@@ -1,49 +1,165 @@
-import { Grid, Link, Paper, Typography } from "@mui/material";
+import {
+  createTheme,
+  Grid,
+  Link,
+  Paper,
+  ThemeProvider,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import { Fragment } from "react/jsx-runtime";
+const runningOrder = [
+  ["11:45am", "Guests to be Seated"],
+  ["12:00pm", "The Ceremony"],
+  ["12:30pm", "Drinks, Canapés & Photos"],
+  ["2:00pm", "Wedding Breakfast"],
+  ["3:30pm", "Speeches & Toasts"],
+  ["6:45pm", "Cutting of the Cake"],
+  ["7:00pm", "Music & Dancing"],
+  ["12:00am", "Carriages"],
+];
 
-export const Details = () => (
-  <Paper sx={{ padding: 1 }}>
-    <h2 className="fancy">Details</h2>
-    <Grid container columns={{ xs: 1, sm: 3 }} spacing={2} padding={1}>
-      <Grid container columns={2} padding={1} size={2}>
-        <Grid size={1}>
-          <Typography variant="h6">Date</Typography>
-          <Typography>Saturday 22nd August 2026</Typography>
-          <Typography>Guests from 11:00am, Service at Midday.</Typography>
-          <Typography>Carriages at Midnight</Typography>
+export const Details = () => {
+  const globalTheme = useTheme();
+  const theme = createTheme({
+    ...globalTheme,
+    typography: {
+      fontFamily: "Garamond, serif",
+    },
+    a: {
+      fontSize: "1rem",
+    },
+  });
+
+  return (
+    <ThemeProvider theme={theme}>
+      <Paper
+        sx={{ padding: 1, zIndex: 20, position: "relative", marginTop: "30vh" }}
+        className={"details"}
+      >
+        <h2 className="fancy">Details</h2>
+        <Grid container columns={{ xs: 1, sm: 3 }} spacing={2} padding={1}>
+          <Grid container columns={{ xs: 1, sm: 2 }} padding={1} size={2}>
+            <Grid container size={1} columns={1} gap={1}>
+              <Grid size={1}>
+                <Typography variant="h6">Date & Time</Typography>
+                <Typography>Saturday, 22nd August 2026</Typography>
+                <Typography>Guests to be seated by 11.45</Typography>
+                <Typography>Ceremony at midday</Typography>
+              </Grid>
+
+              <Grid size={1}>
+                <Typography variant="h6">Location</Typography>
+                <Link href="https://www.handpickedhotels.co.uk/rookeryhall">
+                  Rookery Hall Hotel and Spa
+                </Link>
+                <Typography>Main Road</Typography>
+                <Typography>Nantwich</Typography>
+                <Typography>Cheshire</Typography>
+                <Typography>CW5 6DQ</Typography>
+                <Link href="tel:01270 610016">01270 610016</Link>
+              </Grid>
+              <Grid size={1}>
+                <Typography variant="h6">What to wear</Typography>
+                <Typography>Dress Code: Formal</Typography>
+                <Typography>
+                  We are hoping for an outdoor ceremony (weather permitting!).
+                  Since this will mean walking on grass, we suggest choosing
+                  your footwear accordingly.
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid size={1} sx={{ lineHeight: "0.8rem" }}>
+              <Typography variant="h6">The Order of the Day</Typography>
+              {runningOrder.map(([time, event]) => (
+                <Fragment key={time}>
+                  <Typography lineHeight={1.4} sx={{ fontWeight: 800 }}>
+                    {time}
+                  </Typography>
+                  <Typography lineHeight={1.4} marginBottom={0.7}>
+                    {event}
+                  </Typography>
+                </Fragment>
+              ))}
+            </Grid>
+            <Grid size={1}>
+              <Typography variant="h6">Accommodation</Typography>
+              <Typography>
+                A discounted block of rooms is available at the venue for the
+                night of the wedding. Please mention our names when calling to
+                book.
+              </Typography>
+              <Typography>
+                If you&apos;d prefer to explore other options, here are some{" "}
+                <Link
+                  href="https://maps.app.goo.gl/gg53hqggThKMc77FA"
+                  target="_blank"
+                >
+                  nearby hotels
+                </Link>
+                .
+              </Typography>
+            </Grid>
+            <Grid size={1}>
+              <Typography variant="h6">Transport</Typography>
+              <Typography>
+                The nearest airport to the venue is{" "}
+                <Link
+                  href="https://maps.app.goo.gl/xrbDCoJDfjJdTgq9A"
+                  target="_blank"
+                >
+                  Manchester Airport
+                </Link>
+                , which is approximately 40 minutes away. Find the Google Maps
+                route{" "}
+                <Link
+                  href="https://maps.app.goo.gl/JCyVgEABZK3HGQdr8"
+                  target="_blank"
+                >
+                  here
+                </Link>
+                .
+              </Typography>
+              <Typography>
+                There is plenty of parking available directly at the venue.
+              </Typography>
+              <Typography>
+                As our venue is in a rural area, taxis should be booked in
+                advance via{" "}
+                <Link href="https://astartaxiscrewe.co.uk/" target="_blank">
+                  A Star Taxis
+                </Link>
+                {" ("}
+                <Link href="tel:01270 895044" target="_blank">
+                  01270 895044
+                </Link>
+                ). We recommend booking your return taxi for midnight to
+                coincide with the end of the celebrations.
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid container size={1} columns={1}>
+            <Grid size={1}>
+              <img
+                width="100%"
+                src="https://www.handpickedhotels.co.uk/oimgnn/images/hotels/generic-images/HomepageVI/Hotel%20homepages/RHH/Insta/Rookery%20IG%20-%201-768.jpg"
+              />
+            </Grid>
+            <Grid size={1}>
+              <Typography variant="h6">Map</Typography>
+              <iframe
+                src="https://www.google.com/maps/embed/v1/search?key=AIzaSyAC3RnrSwTFpi8vk1Wt0ujGYPLgODC0C_Y&q=hotels+rookery+hall+nantwich&center=53.2594,-2.548&zoom=9"
+                width="100%"
+                height="300px"
+                style={{ border: 0 }}
+                loading="lazy"
+              />
+            </Grid>
+          </Grid>
         </Grid>
-        <Grid size={1}>
-          <Typography variant="h6">Location</Typography>
-          <Link href="https://www.handpickedhotels.co.uk/rookeryhall">
-            Rookery Hall, Cheshire
-          </Link>
-          <Typography>Main Rd</Typography>
-          <Typography>Worleston</Typography>
-          <Typography>Nantwich</Typography>
-          <Typography>CW5 6DQ</Typography>
-        </Grid>
-        <Grid size={2}>
-          <Typography variant="h6">Accommodation</Typography>
-          <Typography>
-            We have reserved limited rooms at the hotel for the night of the
-            wedding.
-          </Typography>
-          <Typography>
-            To book a room, please call the hotel directly and mention
-          </Typography>
-          <Typography>the wedding of Samuel and Claudine.</Typography>
-          <Typography>
-            Otherwise, Nantwich is roughly 10m drive away.
-          </Typography>
-        </Grid>
-      </Grid>
-      <Grid size={1}>
-        <img
-          width="100%"
-          src="https://www.handpickedhotels.co.uk/oimgnn/images/hotels/generic-images/HomepageVI/Hotel%20homepages/RHH/Insta/Rookery%20IG%20-%201-768.jpg"
-        />
-      </Grid>
-    </Grid>
-  </Paper>
-);
+      </Paper>
+    </ThemeProvider>
+  );
+};
 
 export default Details;

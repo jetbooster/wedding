@@ -20,11 +20,13 @@ const server = serve({
       const imageName = req.params.image;
       const imagePath = `./src/images/${imageName}`;
       try {
-        return new Response(await Bun.file(imagePath).bytes(), {
+        return new Response(await Bun.file(imagePath), {
           headers: { "Content-Type": "image/jpeg" },
         });
       } catch (e) {
-        return new Response(`Image not found: ${(e as Error).message}`, { status: 404 });
+        return new Response(`Image not found: ${(e as Error).message}`, {
+          status: 404,
+        });
       }
     },
 
@@ -38,7 +40,7 @@ const server = serve({
             {
               status: 401,
               headers: { "Content-Type": "text/plain" },
-            }
+            },
           );
         }
 
@@ -52,7 +54,7 @@ const server = serve({
             {
               status: 404,
               headers: { "Content-Type": "text/plain" },
-            }
+            },
           );
         }
 
@@ -73,7 +75,7 @@ const server = serve({
           UPDATE users
           SET name = ?, partner_name = ?
           WHERE user_id = ?;
-          `
+          `,
           ).run(name, partner_name, user.user_id);
 
           db.query(
@@ -86,7 +88,7 @@ const server = serve({
             ?,
             ?)
           ;
-          `
+          `,
           ).run(
             user.user_id,
             attending ? 1 : 0,
@@ -98,24 +100,24 @@ const server = serve({
             `
           INSERT OR REPLACE INTO meal_choices (for_partner, user_id, meal_type, food_id)
           VALUES (?, ?, ?, ?);
-          `
+          `,
           );
           if (attending) {
             insertMealChoices.run(
               0,
               user.user_id!,
               "starter",
-              meal_choice.starter
+              meal_choice.starter,
             );
             insertMealChoices.run(0, user.user_id!, "main", meal_choice.main);
             insertMealChoices.run(
               0,
               user.user_id!,
               "dessert",
-              meal_choice.dessert
+              meal_choice.dessert,
             );
           } else {
-            db.run(`DELETE FROM meal_choices WHERE user_id=?`,[user.user_id]);
+            db.run(`DELETE FROM meal_choices WHERE user_id=?`, [user.user_id]);
           }
 
           if (partner_attending) {
@@ -123,22 +125,25 @@ const server = serve({
               1,
               user.user_id!,
               "starter",
-              partner_meal_choice.starter
+              partner_meal_choice.starter,
             );
             insertMealChoices.run(
               1,
               user.user_id!,
               "main",
-              partner_meal_choice.main
+              partner_meal_choice.main,
             );
             insertMealChoices.run(
               1,
               user.user_id!,
               "dessert",
-              partner_meal_choice.dessert
+              partner_meal_choice.dessert,
             );
           } else {
-            db.run(`DELETE FROM meal_choices WHERE user_id=? AND for_partner=1`,[user.user_id]);
+            db.run(
+              `DELETE FROM meal_choices WHERE user_id=? AND for_partner=1`,
+              [user.user_id],
+            );
           }
         });
         try {
@@ -158,7 +163,7 @@ const server = serve({
     },
 
     "/api/get_user/:code": async (
-      req: Bun.BunRequest<"/api/get_user/:code">
+      req: Bun.BunRequest<"/api/get_user/:code">,
     ) => {
       const result = db
         .query("SELECT * FROM users WHERE code=$code OR user_id=$code")
@@ -171,7 +176,7 @@ const server = serve({
           {
             status: 404,
             headers: { "Content-Type": "text/plain" },
-          }
+          },
         );
       }
       return Response.json(result);
@@ -186,11 +191,11 @@ const server = serve({
 
       const foodOptions = {
         starter: result.filter(
-          (item) => item.type === "starter"
+          (item) => item.type === "starter",
         ) as FoodOption[],
         main: result.filter((item) => item.type === "main") as FoodOption[],
         dessert: result.filter(
-          (item) => item.type === "dessert"
+          (item) => item.type === "dessert",
         ) as FoodOption[],
       };
 
@@ -207,6 +212,10 @@ const server = serve({
 
     // Echo console logs from the browser to the server
     console: true,
+  },
+  tls: {
+    key: Bun.file("/etc/localcerts/localhost.key"),
+    cert: Bun.file("/etc/localcerts/localhost.crt"),
   },
 });
 

@@ -37,7 +37,7 @@ export function Form() {
     string | undefined
   >();
   const [partnerName, setPartnerName] = useState<string | undefined>(
-    user?.partner_name
+    user?.partner_name,
   );
   const [mealChoice, setMealChoice] = useState<MealChoice>(BLANK_MEAL_CHOICE);
   const [partnerMealChoice, setPartnerMealChoice] =
@@ -76,7 +76,7 @@ export function Form() {
 
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
-    newAttending: string
+    newAttending: string,
   ) => {
     if (dirty && newAttending) {
       setDirty(false);
@@ -151,11 +151,11 @@ export function Form() {
         children: Number(children),
         notes,
       },
-      user?.user_id
+      user?.user_id,
     );
   };
   return (
-    <Paper sx={{ marginTop: "1.5em" }}>
+    <Paper sx={{ marginTop: "1.5em", zIndex: 20, position: "relative" }}>
       <h2 className="fancy">RSVP</h2>
       <form onSubmit={handleSubmit}>
         <Stack

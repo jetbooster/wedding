@@ -1,20 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router";
-import { Form } from "./components/Form";
 import "./index.css";
-import Details from "./components/Details";
 import { FoodOptions } from "./types";
-import {
-  Alert,
-  OutlinedInput,
-  Paper,
-  Slide,
-  SlideProps,
-  Snackbar,
-  Typography,
-} from "@mui/material";
+import { Alert, Slide, SlideProps, Snackbar } from "@mui/material";
 import { MealContext } from "./context/MealContext";
 import { UserContext } from "./context/UserContext";
+import NotInvitedPage from "./components/NotInvitedPage";
+import InvitedPage from "./components/InvitedPage";
 
 function SlideTransition(props: SlideProps) {
   return <Slide {...props} direction="down" />;
@@ -22,6 +14,7 @@ function SlideTransition(props: SlideProps) {
 
 export function App() {
   const [user, setUser] = useState();
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | undefined>(undefined);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [searchParams] = useSearchParams();
@@ -68,11 +61,13 @@ export function App() {
         .then((result) => result.json())
         .then((result) => {
           setUser(result);
+          setLoading(false);
         })
         .catch(() => {
           setError(
             "Couldn't find a user with that code. Please check the link on your invitation.",
           );
+          setLoading(false);
         });
     }
   }, [searchParams]);
@@ -97,60 +92,11 @@ export function App() {
             {error}
           </Alert>
         </Snackbar>
-        <div className="imageLeft" />
-        <div className="imageRight" />
-        {user ? (
-          <div className="app" ref={ref}>
-            <h1 className="fancy">You&apos;re Invited!</h1>
-            <p className="fancy">To the Wedding of:</p>
-            <p className="fancy">Samuel Andrew Jarvis</p>
-            <p className="fancy">&</p>
-            <p className="fancy">Claudine Julie Richardson</p>
-            <div />
-            <Details />
-            <Form />
-          </div>
+
+        {loading ? undefined : user ? (
+          <InvitedPage ref={ref} />
         ) : (
-          <div className="app" ref={ref}>
-            <h1 className="fancy">
-              You&apos;re{" "}
-              <Typography display="inline" component="span" fontSize={40}>
-                (maybe)
-              </Typography>{" "}
-              Invited?
-            </h1>
-            <p className="fancy">To the Wedding of:</p>
-            <p className="fancy">Samuel Andrew Jarvis</p>
-            <p className="fancy">&</p>
-            <p className="fancy">Claudine Julie Richardson</p>
-            <div />
-            <Paper sx={{ padding: "1em", marginTop: "1.5em" }}>
-              <Typography>
-                Please check the link on your invitation. It should have a{" "}
-                <Typography
-                  display="inline"
-                  component="span"
-                  sx={{ fontFamily: "monospace" }}
-                >
-                  ?code=abc
-                </Typography>{" "}
-                at the end.
-              </Typography>
-              <OutlinedInput
-                fullWidth
-                id="code"
-                placeholder="Enter your code here"
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    let code = (e.target as HTMLInputElement).value;
-                    // if user accidentally adds the ?code= part, remove it
-                    code = code.replace(/^\s?\??(code)?\s*=?\s*/, "");
-                    window.location.search = `?code=${code}`;
-                  }
-                }}
-              />
-            </Paper>
-          </div>
+          <NotInvitedPage ref={ref} />
         )}
       </MealContext>
     </UserContext>
