@@ -21,7 +21,7 @@ const BLANK_MEAL_ERRORS: FormErrors["mealChoice"] = {
 };
 
 export function Form() {
-  const { user, userResponse } = useContext(UserContext);
+  const { user, setUser, userResponse } = useContext(UserContext);
   const { setContent } = useContext(DialogContext);
   const [name, setName] = useState<string | undefined>(user?.name);
   const [attending, setAttending] = useState<"yes" | "no" | undefined>(
@@ -250,8 +250,20 @@ export function Form() {
             </Typography>
             <Typography>
               Welcome {names.join(" & ")}. We are so excited to share our day
-              with you. If this isn&apos;t you, please let us know so we can get
-              the right link over to you!
+              with you. If this isn&apos;t you, please{" "}
+              <Button
+                variant="text"
+                sx={{
+                  textTransform: "initial",
+                  textDecoration: "underline",
+                  padding: "1px",
+                }}
+                onClick={() => {
+                  setUser(undefined);
+                }}
+              >
+                click here to sign out
+              </Button>
             </Typography>
             <AttendingBlock
               name={user?.name || ""}

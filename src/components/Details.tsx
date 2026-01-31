@@ -36,7 +36,13 @@ export const Details = () => {
       >
         <h2 className="fancy">Details</h2>
         <Grid container columns={{ xs: 1, sm: 3 }} spacing={2} padding={1}>
-          <Grid container columns={{ xs: 1, sm: 2 }} padding={1} size={2}>
+          <Grid
+            container
+            columns={{ xs: 1, sm: 2 }}
+            padding={1}
+            size={2}
+            columnGap={2}
+          >
             <Grid container size={1} columns={1} gap={1}>
               <Grid size={1}>
                 <Typography variant="h6">Date & Time</Typography>
