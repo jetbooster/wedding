@@ -1,34 +1,11 @@
+import { DatabaseResponse, UserResponse } from "@/types";
 import { Database } from "bun:sqlite";
 
 const thisFolder = import.meta.dir;
 
-type MealType = "starter" | "main" | "dessert";
 
-type MealChoice = Record<MealType, string>;
 
-interface UserResponse {
-  name: string;
-  attending: boolean,
-  partner_attending: boolean,
-  partner_name: string;
-  mealChoice: Partial<MealChoice>;
-  partnerMealChoice: Partial<MealChoice>;
-  children: number;
-  notes: string;
-}
 
-interface DatabaseResponse {
-  user_id: number;
-  name: string;
-  attending: string;
-  partner_attending: string;
-  partner_name: string;
-  food_description: string;
-  for_partner: boolean;
-  meal_type: MealType;
-  children: number;
-  notes: string;
-}
 
 export const getAllResponses = (db: Database) => {
   const result = db

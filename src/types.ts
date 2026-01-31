@@ -31,6 +31,7 @@ export interface FormResponse {
   partner_name: string;
   meal_choice: MealChoice;
   partner_meal_choice: MealChoice;
+  dietry_reqs: string;
   children: number;
   notes: string;
 }
@@ -50,3 +51,37 @@ export interface FormErrors {
   };
   children: boolean;
 }
+
+type MealType = "starter" | "main" | "dessert";
+
+export interface UserResponse {
+  name: string;
+  attending: boolean,
+  partner_attending: boolean,
+  partner_name: string;
+  mealChoice: Record<MealType, number>;
+  partnerMealChoice: Record<MealType, number>;
+  dietryReqs: string;
+  children: number;
+  notes: string;
+}
+
+
+export interface DatabaseResponse {
+  user_id: number;
+  name: string;
+  attending: string;
+  partner_attending: string;
+  partner_name: string;
+  food_id: number;
+  for_partner: boolean;
+  dietry_reqs: string;
+  meal_type: MealType;
+  children: number;
+  notes: string;
+}
+
+export type MuiToggleHandler<T = string> = (
+  event: React.MouseEvent<HTMLElement>,
+  value: T,
+) => void;

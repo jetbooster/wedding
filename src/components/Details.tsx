@@ -26,9 +26,6 @@ export const Details = () => {
     typography: {
       fontFamily: "Garamond, serif",
     },
-    a: {
-      fontSize: "1rem",
-    },
   });
 
   return (
@@ -50,18 +47,21 @@ export const Details = () => {
 
               <Grid size={1}>
                 <Typography variant="h6">Location</Typography>
-                <Link href="https://www.handpickedhotels.co.uk/rookeryhall">
+                <Link
+                  variant="body1"
+                  href="https://www.handpickedhotels.co.uk/rookeryhall"
+                  target="_blank"
+                >
                   Rookery Hall Hotel and Spa
                 </Link>
                 <Typography>Main Road</Typography>
                 <Typography>Nantwich</Typography>
                 <Typography>Cheshire</Typography>
                 <Typography>CW5 6DQ</Typography>
-                <Link href="tel:01270 610016">01270 610016</Link>
               </Grid>
               <Grid size={1}>
                 <Typography variant="h6">What to wear</Typography>
-                <Typography>Dress Code: Formal</Typography>
+                <Typography>Dress Code: Formal - Suited and Booted!</Typography>
                 <Typography>
                   We are hoping for an outdoor ceremony (weather permitting!).
                   Since this will mean walking on grass, we suggest choosing
@@ -83,22 +83,27 @@ export const Details = () => {
               ))}
             </Grid>
             <Grid size={1}>
-              <Typography variant="h6">Accommodation</Typography>
+              <Typography variant="h6">Gifts</Typography>
               <Typography>
-                A discounted block of rooms is available at the venue for the
-                night of the wedding. Please mention our names when calling to
-                book.
+                Your presence at our wedding is the greatest gift we could ask
+                for. However, if you do wish to give a gift, a donation toward
+                our honeymoon fund would be sincerely appreciated.
               </Typography>
               <Typography>
-                If you&apos;d prefer to explore other options, here are some{" "}
-                <Link
-                  href="https://maps.app.goo.gl/gg53hqggThKMc77FA"
-                  target="_blank"
-                >
-                  nearby hotels
-                </Link>
-                .
+                Bank Transfer: Claudine Richardson | Sort Code: 60-83-71 |
+                Account: 62999637
               </Typography>
+              <Typography>
+                International Guests: IBAN:GB56SRLG60837162999637 | SWIFT/BIC:
+                SRLGGB2L
+              </Typography>
+              <Link
+                variant="body1"
+                href="https://paypal.me/sjcrweddingfund"
+                target="_blank"
+              >
+                paypal.me/sjcrweddingfund
+              </Link>
             </Grid>
             <Grid size={1}>
               <Typography variant="h6">Transport</Typography>
@@ -121,10 +126,10 @@ export const Details = () => {
                 .
               </Typography>
               <Typography>
-                There is plenty of parking available directly at the venue.
+                There is plenty of parking available directly at Rookery Hall.
               </Typography>
               <Typography>
-                As our venue is in a rural area, taxis should be booked in
+                As Rookery Hall is in a rural area, taxis should be booked in
                 advance via{" "}
                 <Link href="https://astartaxiscrewe.co.uk/" target="_blank">
                   A Star Taxis
@@ -135,6 +140,47 @@ export const Details = () => {
                 </Link>
                 ). We recommend booking your return taxi for midnight to
                 coincide with the end of the celebrations.
+              </Typography>
+            </Grid>
+            <Grid size={1}>
+              <Typography variant="h6">Contact Us</Typography>
+              <Typography>
+                If you have any questions about the travel, the venue, or
+                anything else, please don&apos;t hesitate to reach out!
+              </Typography>
+              <Typography>
+                Sam: <Link href="tel:+447479556711">+44 7479 556 711</Link>
+              </Typography>
+              <Typography>
+                Claudine: <Link href="tel:+447948347550">+44 7948 347 550</Link>
+              </Typography>
+              <Typography>
+                On the day of the wedding: Please reach out to our Maid of
+                Honour, Natalie, at{" "}
+                <Link href="tel:+447736350670">+44 7736 350 670</Link>, as we
+                may not be checking our phones!
+              </Typography>
+            </Grid>
+
+            <Grid size={1}>
+              <Typography variant="h6">Accommodation</Typography>
+              <Typography>
+                A discounted block of rooms is available at Rookery Hall for the
+                night of the wedding. Please mention our names when calling to
+                book.{" "}
+                <Link target="_blank" href="tel:01270 610016">
+                  Tel:01270 610016
+                </Link>
+              </Typography>
+              <Typography>
+                If you&apos;d prefer to explore other options, here are some{" "}
+                <Link
+                  href="https://maps.app.goo.gl/gg53hqggThKMc77FA"
+                  target="_blank"
+                >
+                  nearby hotels
+                </Link>
+                .
               </Typography>
             </Grid>
           </Grid>

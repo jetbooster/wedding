@@ -1,20 +1,13 @@
-import {
-  Button,
-  FormControl,
-  Paper,
-  Stack,
-  ToggleButton,
-  ToggleButtonGroup,
-  Typography,
-} from "@mui/material";
-import { FormErrors, MealChoice } from "../types";
+import { DialogContext } from "@/context/DialogContext";
+import { UserContext } from "@/context/UserContext";
+import { Button, Paper, Stack, Typography } from "@mui/material";
+import { AnimatePresence, motion } from "motion/react";
 import { useContext, useEffect, useState } from "react";
+import { submitResponse } from "../api_calls";
+import { FormErrors, MealChoice, MuiToggleHandler } from "../types";
+import AttendingBlock from "./AttendingBlock";
 import { IsAttending } from "./IsAttending";
 import { IsNotAttending } from "./IsNotAttending";
-import { AnimatePresence, motion } from "motion/react";
-import { OutlinedInput } from "./OutlinedInput";
-import { submitResponse } from "../api_calls/submitResponse";
-import { UserContext } from "@/context/UserContext";
 
 const BLANK_MEAL_CHOICE: MealChoice = {
   starter: -1,
@@ -28,22 +21,49 @@ const BLANK_MEAL_ERRORS: FormErrors["mealChoice"] = {
 };
 
 export function Form() {
-  const { user } = useContext(UserContext);
+  const { user, userResponse } = useContext(UserContext);
+  const { setContent } = useContext(DialogContext);
   const [name, setName] = useState<string | undefined>(user?.name);
-  const [attending, setAttending] = useState<string | undefined>();
+  const [attending, setAttending] = useState<"yes" | "no" | undefined>(
+    !userResponse ? undefined : userResponse.attending ? "yes" : "no",
+  );
+  const [rsvpOpen, setRsvpOpen] = useState(true);
   const [dirty, setDirty] = useState<boolean>(false);
   const [watching, setWatching] = useState<boolean>(false);
   const [partnerAttending, setPartnerAttending] = useState<
-    string | undefined
-  >();
+    "yes" | "no" | undefined
+  >(!userResponse ? undefined : userResponse.attending ? "yes" : "no");
   const [partnerName, setPartnerName] = useState<string | undefined>(
     user?.partner_name,
   );
-  const [mealChoice, setMealChoice] = useState<MealChoice>(BLANK_MEAL_CHOICE);
-  const [partnerMealChoice, setPartnerMealChoice] =
-    useState<MealChoice>(BLANK_MEAL_CHOICE);
-  const [children, setChildren] = useState<string | undefined>("0");
-  const [notes, setNotes] = useState<string | undefined>();
+  const [mealChoice, setMealChoice] = useState<MealChoice>(
+    (userResponse && userResponse.mealChoice) || BLANK_MEAL_CHOICE,
+  );
+  const [partnerMealChoice, setPartnerMealChoice] = useState<MealChoice>(
+    (userResponse && userResponse.partnerMealChoice) || BLANK_MEAL_CHOICE,
+  );
+  const [children, setChildren] = useState<string | undefined>(
+    (userResponse && userResponse.children.toString()) || "0",
+  );
+  const [dietryReqs, setDietryReqs] = useState<string | undefined>(
+    (userResponse && userResponse.dietryReqs) || undefined,
+  );
+  const [notes, setNotes] = useState<string | undefined>(
+    (userResponse && userResponse.notes) || undefined,
+  );
+
+  useEffect(() => {
+    if (userResponse) {
+      setRsvpOpen(false);
+      setAttending(userResponse.attending ? "yes" : "no");
+      setPartnerAttending(userResponse.partner_attending ? "yes" : "no");
+      setMealChoice(userResponse.mealChoice);
+      setPartnerMealChoice(userResponse.partnerMealChoice);
+      setNotes(userResponse.notes);
+      setChildren(userResponse.children.toString());
+      setDietryReqs(userResponse.dietryReqs);
+    }
+  }, [userResponse]);
 
   const [formErrors, setFormErrors] = useState<FormErrors>({
     name: false,
@@ -61,6 +81,32 @@ export function Form() {
     children: false,
   });
 
+  const handleMealChange = (
+    type: "starter" | "main" | "dessert",
+    mealChoice: number,
+  ) => {
+    if (mealChoice !== -1 && formErrors.mealChoice[type]) {
+      setDirty(false);
+    }
+    setMealChoice((prev) => ({
+      ...prev,
+      [type]: mealChoice,
+    }));
+  };
+
+  const handlePartnerMealChange = (
+    type: "starter" | "main" | "dessert",
+    mealChoice: number,
+  ) => {
+    if (mealChoice !== -1 && formErrors.partnerMealChoice[type]) {
+      setDirty(false);
+    }
+    setPartnerMealChoice((prev) => ({
+      ...prev,
+      [type]: mealChoice,
+    }));
+  };
+
   useEffect(() => {
     if (user) {
       setName(user.name);
@@ -74,14 +120,23 @@ export function Form() {
     }
   }, [dirty]);
 
-  const handleChange = (
-    event: React.MouseEvent<HTMLElement>,
-    newAttending: string,
+  const handleAttendingChange: MuiToggleHandler<"yes" | "no" | undefined> = (
+    event,
+    value,
   ) => {
-    if (dirty && newAttending) {
+    if (dirty && value) {
       setDirty(false);
     }
-    setAttending(newAttending);
+    setAttending(value);
+  };
+
+  const handlePartnerAttendingChange: MuiToggleHandler<
+    "yes" | "no" | undefined
+  > = (event, value) => {
+    if (dirty && value) {
+      setDirty(false);
+    }
+    setPartnerAttending(value);
   };
 
   const processMealError = (mealChoice: MealChoice) => {
@@ -134,6 +189,15 @@ export function Form() {
     setName(event.target.value);
   };
 
+  const handlePartnerNameChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    if (dirty && event.target.value && event.target.value.length > 0) {
+      setDirty(false);
+    }
+    setName(event.target.value);
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setWatching(true);
@@ -148,101 +212,136 @@ export function Form() {
         partner_name: partnerName,
         meal_choice: mealChoice,
         partner_meal_choice: partnerMealChoice,
+        dietry_reqs: dietryReqs,
         children: Number(children),
         notes,
       },
       user?.user_id,
-    );
+    )
+      .then(() => {
+        setContent({ message: "Submission received!" });
+        setRsvpOpen(false);
+      })
+      .catch((e) => {
+        setContent({ message: e.message, isError: true });
+      });
   };
+
+  const names = [];
+  if (user?.name) {
+    names.push(user.name);
+  }
+  if (user?.partner_name) {
+    names.push(user.partner_name);
+  }
   return (
     <Paper sx={{ marginTop: "1.5em", zIndex: 20, position: "relative" }}>
       <h2 className="fancy">RSVP</h2>
-      <form onSubmit={handleSubmit}>
-        <Stack
-          padding={2}
-          spacing={2}
-          sx={{ transition: "height ease-in-out 0.2s" }}
-        >
-          <Typography>
-            Hello {user?.name || "blah"}. Not you? you may have gotten the wrong
-            code. Contact us immidiately!
-          </Typography>
-          <FormControl fullWidth>
-            <Typography sx={{ textAlign: "left" }}>
-              Name (Please correct any spelling errors)
+      {rsvpOpen ? (
+        <form onSubmit={handleSubmit}>
+          <Stack
+            padding={2}
+            spacing={2}
+            sx={{ transition: "height ease-in-out 0.2s" }}
+          >
+            <Typography>
+              Please let us know if you can join us by{" "}
+              <b>Wednesday 22nd July, 2026</b>
             </Typography>
-            <OutlinedInput
-              fullWidth
-              id="name"
-              defaultValue={user?.name}
-              onChange={handleNameChange}
-              error={formErrors.name}
+            <Typography>
+              Welcome {names.join(" & ")}. We are so excited to share our day
+              with you. If this isn&apos;t you, please let us know so we can get
+              the right link over to you!
+            </Typography>
+            <AttendingBlock
+              name={user?.name || ""}
+              attending={attending}
+              mealChoice={mealChoice}
+              isPartner={false}
+              setDirty={setDirty}
+              handleAttending={handleAttendingChange}
+              handleNameChange={handleNameChange}
+              handleMealChange={handleMealChange}
+              nameFormError={formErrors.name}
+              mealFormError={formErrors.mealChoice}
             />
-          </FormControl>
-          <FormControl fullWidth>
-            <Typography sx={{ textAlign: "left" }}>
-              Will you be attending?
-            </Typography>
-            <ToggleButtonGroup
-              id="attending"
-              color={attending === "yes" ? "secondary" : "error"}
-              sx={{ backgroundColor: "#ffe" }}
-              value={attending}
-              exclusive
-              onChange={handleChange}
-              aria-label="text alignment"
-              fullWidth
-            >
-              <ToggleButton value="yes" aria-label="yes">
-                Yes
-              </ToggleButton>
-              <ToggleButton value="no" aria-label="no">
-                No
-              </ToggleButton>
-            </ToggleButtonGroup>
-          </FormControl>
-          <AnimatePresence>
-            {attending === "yes" && (
-              <motion.div
-                key="yes"
-                style={{ textAlign: "left" }}
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-              >
-                <IsAttending
-                  user={user!}
-                  partnerAttending={partnerAttending}
-                  changePartnerAttending={setPartnerAttending}
-                  mealChoice={mealChoice}
-                  partnerMealChoice={partnerMealChoice}
-                  changeMealChoice={setMealChoice}
-                  changePartnerMealChoice={setPartnerMealChoice}
-                  changePartnerName={setPartnerName}
-                  changeChildren={setChildren}
-                  changeNotes={setNotes}
-                  formErrors={formErrors}
+            {user?.allowed_partner && (
+              <>
+                <Typography variant="h5">&</Typography>
+                <AttendingBlock
+                  name={user?.partner_name || ""}
+                  attending={partnerAttending}
+                  mealChoice={partnerMealChoice}
+                  isPartner={true}
                   setDirty={setDirty}
+                  handleAttending={handlePartnerAttendingChange}
+                  handleNameChange={handlePartnerNameChange}
+                  handleMealChange={handlePartnerMealChange}
+                  nameFormError={formErrors.partnerName}
+                  mealFormError={formErrors.partnerMealChoice}
                 />
-              </motion.div>
+              </>
             )}
-            {attending === "no" && (
-              <motion.div
-                key="no"
-                style={{ textAlign: "left" }}
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-              >
-                <IsNotAttending changeNotes={setNotes} />
-              </motion.div>
-            )}
-          </AnimatePresence>
-          <Button fullWidth type="submit" variant="contained" disabled={dirty}>
-            Submit
-          </Button>
-        </Stack>
-      </form>
+            <AnimatePresence>
+              {(attending === "yes" || partnerAttending === "yes") && (
+                <motion.div
+                  key="yes"
+                  style={{ textAlign: "left" }}
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                >
+                  <IsAttending
+                    child={Number(children)}
+                    notes={notes}
+                    changeChildren={setChildren}
+                    changeNotes={setNotes}
+                    dietryReqs={dietryReqs}
+                    changeDietryReqs={setDietryReqs}
+                    formErrors={formErrors}
+                    setDirty={setDirty}
+                  />
+                </motion.div>
+              )}
+              {attending === "no" && partnerAttending === "no" && (
+                <motion.div
+                  key="no"
+                  style={{ textAlign: "left" }}
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                >
+                  <IsNotAttending notes={notes || ""} changeNotes={setNotes} />
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <Button
+              fullWidth
+              type="submit"
+              variant="contained"
+              disabled={dirty}
+            >
+              Submit
+            </Button>
+          </Stack>
+        </form>
+      ) : (
+        <div style={{ padding: "1rem" }}>
+          <Typography>
+            Thank you {names.join(" & ")}! We have already received an RSVP from
+            your party.
+          </Typography>
+          <div style={{ marginTop: "1rem" }}>
+            <Button
+              variant="contained"
+              sx={{ width: "100%" }}
+              onClick={() => setRsvpOpen(true)}
+            >
+              Edit Response
+            </Button>
+          </div>
+        </div>
+      )}
     </Paper>
   );
 }

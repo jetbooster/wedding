@@ -4,8 +4,10 @@ import { Dispatch, SetStateAction } from "react";
 import { OutlinedInput } from "./OutlinedInput";
 
 export const IsNotAttending = ({
+  notes,
   changeNotes,
 }: {
+  notes: string;
   changeNotes: Dispatch<SetStateAction<string | undefined>>;
 }) => {
   return (
@@ -17,6 +19,7 @@ export const IsNotAttending = ({
         multiline
         minRows={3}
         fullWidth
+        defaultValue={notes}
         inputProps={{ style: { width: "inherit" } }}
         onChange={(event) => changeNotes(event.target.value)}
       />

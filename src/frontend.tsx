@@ -11,6 +11,9 @@ import { App } from "./App";
 import { BrowserRouter } from "react-router";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { blue, green } from "@mui/material/colors";
+import { UserProvider } from "./context/UserContext";
+import { MealProvider } from "./context/MealContext";
+import { DialogProvider } from "./context/DialogContext";
 
 const theme = createTheme({
   palette: {
@@ -24,6 +27,20 @@ const theme = createTheme({
       paper: "#fcf3c7",
     },
   },
+  typography: {
+    allVariants: {
+      fontFamily: "Georgia, serif",
+    },
+  },
+  components: {
+    MuiToggleButton: {
+      defaultProps: {
+        sx: {
+          textTransform: "initial",
+        },
+      },
+    },
+  },
 });
 
 const elem = document.getElementById("root")!;
@@ -31,7 +48,13 @@ const app = (
   <StrictMode>
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        <App />
+        <DialogProvider>
+          <UserProvider>
+            <MealProvider>
+              <App />
+            </MealProvider>
+          </UserProvider>
+        </DialogProvider>
       </BrowserRouter>
     </ThemeProvider>
   </StrictMode>

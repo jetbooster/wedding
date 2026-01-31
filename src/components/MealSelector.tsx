@@ -34,10 +34,7 @@ export const MealSelector = ({
   setDirty,
   changeMealChoice,
 }: MealSelectorProps) => {
-  const { foodOptions, enabled } = useContext(MealContext);
-  if (!enabled) {
-    return null; // If meal options are not enabled, return null
-  }
+  const { mealOptions } = useContext(MealContext);
   const makeGroup = (type: "starter" | "main" | "dessert") => {
     return (
       <Grid size={1}>
@@ -61,7 +58,7 @@ export const MealSelector = ({
             <MenuItem value={-1} disabled>
               {`Select ${partner ? "Partner " : ""}${toTitleCase(type)}`}
             </MenuItem>
-            {foodOptions[type].map((option) => (
+            {mealOptions[type].map((option) => (
               <MenuItem key={option.food_id} value={option.food_id}>
                 {option.description}
               </MenuItem>

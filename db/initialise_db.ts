@@ -29,6 +29,7 @@ export default (db: Database) => {
     attending INTEGER NOT NULL,
     partner_attending INTEGER,
     children INTEGER NOT NULL,
+    dietry_reqs TEXT,
     notes TEXT,
     user_id INTEGER UNIQUE,
     FOREIGN KEY (user_id)
