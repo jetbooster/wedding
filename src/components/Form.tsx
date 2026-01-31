@@ -277,7 +277,7 @@ export function Form() {
               nameFormError={formErrors.name}
               mealFormError={formErrors.mealChoice}
             />
-            {user?.allowed_partner && (
+            {user?.allowed_partner ? (
               <>
                 <Typography variant="h5">&</Typography>
                 <AttendingBlock
@@ -293,6 +293,8 @@ export function Form() {
                   mealFormError={formErrors.partnerMealChoice}
                 />
               </>
+            ) : (
+              ""
             )}
             <AnimatePresence>
               {(attending === "yes" || partnerAttending === "yes") && (
@@ -341,7 +343,20 @@ export function Form() {
         <div style={{ padding: "1rem" }}>
           <Typography>
             Thank you {names.join(" & ")}! We have already received an RSVP from
-            your party.
+            your party. If this isn&apos;t you, please{" "}
+            <Button
+              variant="text"
+              sx={{
+                textTransform: "initial",
+                textDecoration: "underline",
+                padding: "1px",
+              }}
+              onClick={() => {
+                setUser(undefined);
+              }}
+            >
+              click here to sign out
+            </Button>
           </Typography>
           <div style={{ marginTop: "1rem" }}>
             <Button
