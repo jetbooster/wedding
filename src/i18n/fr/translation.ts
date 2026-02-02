@@ -1,39 +1,70 @@
 export default {
-  attendingBlock: {
-    attending: {
-      label: "",
-      no: "",
-      yes: "",
+  "attendingBlock": {
+    "attending": {
+      "label": "",
+      "no": "",
+      "yes": ""
     },
-    name: "",
+    "name": ""
   },
-  button:{
-    "submit":"Envoyer"
+  "button": {
+    "submit": "Envoyer"
   },
-  details: {
-    runningOrder: {
-      title: "The Order of the Day",
-      seated: "Guests to be Seated",
-      ceremony: "The Ceremony",
-      drinks: "Drinks, Canapés & Photos",
-      breakfast: "Wedding Breakfast",
-      speeches: "Speeches & Toasts",
-      cutting: "Cutting of the Cake",
-      dancing: "Music & Dancing",
-      carriages: "Carriages",
+  "details": {
+    "accomodation": {
+      "description": "",
+      "nearby": "",
+      "other": "",
+      "title": ""
     },
+    "contactUs": {
+      "description": "",
+      "nat": "",
+      "title": ""
+    },
+    "dateAndTime": {
+      "ceremony": "",
+      "longDate": "",
+      "seated": "",
+      "title": ""
+    },
+    "dressCode": {
+      "description": "",
+      "dressCode": "",
+      "title": ""
+    },
+    "gifts": {
+      "description": "",
+      "international": "",
+      "national": "",
+      "title": ""
+    },
+    "map": "",
+    "runningOrder": {
+      "breakfast": "Wedding Breakfast",
+      "carriages": "Carriages",
+      "ceremony": "The Ceremony",
+      "cutting": "Cutting of the Cake",
+      "dancing": "Music & Dancing",
+      "drinks": "Drinks, Canapés & Photos",
+      "seated": "Guests to be Seated",
+      "speeches": "Speeches & Toasts",
+      "title": "The Order of the Day"
+    },
+    "transport": {
+      "airport": "",
+      "parking": "",
+      "taxis": "",
+      "title": ""
+    }
   },
-  invited: {
+  "invited": {
     "1": "Vous êtes invité",
     "2": "au mariage de",
     "3": "et",
-    maybe: "<1>Vous <2>(maybe)</2> invité?</1>",
-    query: "Bonjour! Veuillez saisir votre prénom et votre nom.",
-    firstPlaceholder: "Prénom",
-    lastPlaceholder: "Votre nom",
-    error:{
-      "noFirstLast":"Veuillez indiquer le prénom et le nom de famille.",
-      "userNotFound":"L'utilisateur n'existe pas. Veuillez vous assurer d'avoir utilisé votre nom complet. Sinon, essayez le nom de votre partenaire. Si le problème persiste, veuillez nous contacter."
-    }
-  },
+    "firstPlaceholder": "Prénom",
+    "lastPlaceholder": "Votre nom",
+    "maybe": "<1>Vous <2>(maybe)</2> invité?</1>",
+    "query": "Bonjour! Veuillez saisir votre prénom et votre nom."
+  }
 } as const;
