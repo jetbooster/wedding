@@ -3,8 +3,8 @@ import { UserContext } from "@/context/UserContext";
 import { Button, Paper, Stack, Typography } from "@mui/material";
 import { AnimatePresence, motion } from "motion/react";
 import { useContext, useEffect, useState } from "react";
-import { submitResponse } from "../api_calls";
-import { FormErrors, MealChoice, MuiToggleHandler } from "../types";
+import { submitResponse } from "../../api_calls";
+import { FormErrors, MealChoice, MuiToggleHandler } from "../../types";
 import AttendingBlock from "./AttendingBlock";
 import { IsAttending } from "./IsAttending";
 import { IsNotAttending } from "./IsNotAttending";
@@ -260,6 +260,7 @@ export function Form() {
                 }}
                 onClick={() => {
                   setUser(undefined);
+                  localStorage.removeItem("user_code");
                 }}
               >
                 click here to sign out
@@ -353,6 +354,7 @@ export function Form() {
               }}
               onClick={() => {
                 setUser(undefined);
+                localStorage.removeItem("user_code");
               }}
             >
               click here to sign out

@@ -4,6 +4,7 @@ import { MessageDialog } from "./components/MessageDialog";
 import NotInvitedPage from "./components/NotInvitedPage";
 import { UserContext } from "./context/UserContext";
 import "./index.css";
+import LanguageChanger from "./components/LanguageChanger";
 
 export function App() {
   const { user, loading } = useContext(UserContext);
@@ -22,6 +23,7 @@ export function App() {
 
   return (
     <>
+      <LanguageChanger />
       {loading ? undefined : user ? (
         <InvitedPage ref={ref} />
       ) : (

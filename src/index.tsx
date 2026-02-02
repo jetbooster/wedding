@@ -66,10 +66,7 @@ const server = serve({
         const { first, last }: { first?: string; last?: string } =
           await req.json();
         if (!first || !last) {
-          return ObjResp(
-            { error: "Please provide both first and last name." },
-            400,
-          );
+          return ObjResp({ error: "noFirstLast" }, 400);
         }
         const name = `${first.trim()} ${last.trim()}`;
         const result = db
@@ -81,8 +78,7 @@ const server = serve({
         if (!result) {
           return ObjResp(
             {
-              error:
-                "User does not exist. Ensure you used your full name, otherwise try your partner's name. If that doesn't work, contact us.",
+              error: "userNotFound",
             },
             404,
           );

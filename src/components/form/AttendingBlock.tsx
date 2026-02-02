@@ -9,6 +9,7 @@ import {
 import { AnimatePresence, motion } from "motion/react";
 import { FC } from "react";
 import { MealSelector } from "./MealSelector";
+import { useTranslation } from "react-i18next";
 
 interface AttendingBlock {
   name: string;
@@ -38,6 +39,7 @@ const AttendingBlock: FC<AttendingBlock> = ({
   nameFormError,
   mealFormError,
 }) => {
+  const { t } = useTranslation();
   return (
     <div
       style={{
@@ -51,7 +53,7 @@ const AttendingBlock: FC<AttendingBlock> = ({
     >
       <FormControl fullWidth>
         <Typography sx={{ textAlign: "left" }}>
-          Name (Please feel free to correct any spelling errors here)
+          {t("attendingBlock.name")}
         </Typography>
         <OutlinedInput
           fullWidth
@@ -64,7 +66,7 @@ const AttendingBlock: FC<AttendingBlock> = ({
       </FormControl>
       <FormControl fullWidth>
         <Typography sx={{ textAlign: "left" }}>
-          Will you be attending?
+          {t("attendingBlock.attending.label")}
         </Typography>
         <ToggleButtonGroup
           id="attending"
@@ -81,14 +83,14 @@ const AttendingBlock: FC<AttendingBlock> = ({
             aria-label="yes"
             sx={{ border: 1, textTransform: "none", color: "#222" }}
           >
-            Yes, I can&apos;t wait!
+            {t("attendingBlock.attending.yes")}
           </ToggleButton>
           <ToggleButton
             value="no"
             aria-label="no"
             sx={{ border: 1, textTransform: "none", color: "#222" }}
           >
-            No, but I&apos;ll be there in spirit
+            {t("attendingBlock.attending.no")}
           </ToggleButton>
         </ToggleButtonGroup>
       </FormControl>

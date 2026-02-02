@@ -14,6 +14,7 @@ import { blue, green } from "@mui/material/colors";
 import { UserProvider } from "./context/UserContext";
 import { MealProvider } from "./context/MealContext";
 import { DialogProvider } from "./context/DialogContext";
+import "./i18n/config";
 
 const theme = createTheme({
   palette: {
