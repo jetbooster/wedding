@@ -15,7 +15,7 @@ interface AttendingBlock {
   name: string;
   mealChoice: MealChoice;
   attending: "yes" | "no" | undefined;
-  isPartner: boolean;
+  isPartner?: boolean;
   handleAttending: MuiToggleHandler<"yes" | "no" | undefined>;
   handleNameChange: React.ChangeEventHandler;
   handleMealChange: (
@@ -31,7 +31,7 @@ const AttendingBlock: FC<AttendingBlock> = ({
   name,
   mealChoice,
   attending,
-  isPartner,
+  isPartner = false,
   handleAttending,
   handleNameChange,
   handleMealChange,

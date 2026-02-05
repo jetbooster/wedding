@@ -3,8 +3,10 @@ import { Database } from "bun:sqlite";
 export default (db: Database) => {
   db.exec("PRAGMA journal_mode = WAL;");
 
+  db.run("DROP TABLE IF EXISTS 'food'");
+
   db.run(`
-  CREATE TABLE IF NOT EXISTS food (
+  CREATE TABLE IF NOT EXISTS 'food' (
     food_id INTEGER PRIMARY KEY,
     description TEXT,
     type TEXT CHECK (type IN ('starter', 'main', 'dessert')),
@@ -28,7 +30,7 @@ export default (db: Database) => {
     response_id INTEGER PRIMARY KEY,
     attending INTEGER NOT NULL,
     partner_attending INTEGER,
-    children INTEGER NOT NULL,
+    children TEXT NOT NULL,
     dietry_reqs TEXT,
     notes TEXT,
     user_id INTEGER UNIQUE,

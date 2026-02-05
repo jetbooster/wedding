@@ -13,7 +13,7 @@ const InvitedPage: FC<InvitedPageProps> = ({ ref }) => {
     <div className="app">
       <div className="imageLeft" />
       <div className="imageRight" />
-      <div className="appear" ref={ref}>
+      <div className="appear" ref={ref} data-main="true">
         <h1 className="fancy">{t("invited.1")}</h1>
         <p className="fancy">{t("invited.2")}</p>
         <p className="fancy">Claudine Julie Richardson</p>

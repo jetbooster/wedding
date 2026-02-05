@@ -7,8 +7,10 @@ import {
   useState,
 } from "react";
 
-interface DialogContent {
+export interface DialogContent {
+  header: string;
   message: string;
+  messageAdditional?: string[];
   isError?: boolean;
 }
 

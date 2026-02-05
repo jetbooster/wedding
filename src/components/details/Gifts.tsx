@@ -15,7 +15,7 @@ const Gifts: FC = () => {
         href="https://paypal.me/sjcrweddingfund"
         target="_blank"
       >
-        paypal.me/sjcrweddingfund
+        {t("paypal")}
       </Link>
     </Grid>
   );

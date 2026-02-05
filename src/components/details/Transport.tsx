@@ -32,7 +32,7 @@ const Transport: FC = () => {
         components={{
           1: <Typography />,
           2: <Link href="https://astartaxiscrewe.co.uk/" target="_blank" />,
-          3: <Link href="tel:01270 895044" target="_blank" />,
+          3: <Link href="tel:+44 1270 895044" target="_blank" />,
         }}
       />
     </Grid>

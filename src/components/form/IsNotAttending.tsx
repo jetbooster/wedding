@@ -2,6 +2,7 @@ import { Typography } from "@mui/material";
 import { Fragment } from "react/jsx-runtime";
 import { Dispatch, SetStateAction } from "react";
 import { OutlinedInput } from "./OutlinedInput";
+import { useTranslation } from "react-i18next";
 
 export const IsNotAttending = ({
   notes,
@@ -10,10 +11,13 @@ export const IsNotAttending = ({
   notes: string;
   changeNotes: Dispatch<SetStateAction<string | undefined>>;
 }) => {
+  const { t } = useTranslation(undefined, { keyPrefix: "isNotAttending" });
   return (
     <Fragment>
-      <Typography>Sorry to hear that. Thanks for letting us know.</Typography>
-      <Typography sx={{ textAlign: "left" }}>Any Final Words?</Typography>
+      <Typography>{t("text1")}</Typography>
+      <Typography>{t("text2")}</Typography>
+      <Typography>{t("text3")}</Typography>
+      <Typography>{t("text4")}</Typography>
       <OutlinedInput
         id="notes"
         multiline

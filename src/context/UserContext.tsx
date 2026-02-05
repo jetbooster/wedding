@@ -14,13 +14,11 @@ export const UserContext = createContext<{
   user?: User;
   setUser: Dispatch<SetStateAction<User | undefined>>;
   loading: boolean;
-  userError: string;
   userResponse?: UserResponse;
 }>({
   user: undefined,
   setUser: () => {},
   loading: true,
-  userError: "",
   userResponse: undefined,
 });
 
@@ -28,7 +26,6 @@ export const UserProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | undefined>(undefined);
   const [userResponse, setUserResponse] = useState<UserResponse | undefined>();
   const [loading, setLoading] = useState(true);
-  const [userError, setUserError] = useState("");
   useEffect(() => {
     const storedUserCode = localStorage.getItem("user_code");
     if (storedUserCode && storedUserCode !== "undefined") {
@@ -38,9 +35,9 @@ export const UserProvider: FC<{ children: ReactNode }> = ({ children }) => {
           setUser(user);
           setLoading(false);
         })
-        .catch((e) => {
+        .catch(() => {
           setLoading(false);
-          setUserError(e.message);
+          localStorage.removeItem("user_code");
         });
     } else {
       setLoading(false);
@@ -56,9 +53,7 @@ export const UserProvider: FC<{ children: ReactNode }> = ({ children }) => {
     }
   }, [user]);
   return (
-    <UserContext.Provider
-      value={{ user, setUser, loading, userError, userResponse }}
-    >
+    <UserContext.Provider value={{ user, setUser, loading, userResponse }}>
       {children}
     </UserContext.Provider>
   );

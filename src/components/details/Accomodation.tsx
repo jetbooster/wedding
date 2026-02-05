@@ -11,8 +11,8 @@ const Accomodation: FC = () => {
       <Typography variant="h6">{t("title")}</Typography>
       <Typography>{t("description")}</Typography>
       <Typography>
-        <Link target="_blank" href="tel:01270 610016">
-          Tel:+44 1270 610016
+        <Link target="_blank" href="tel:+441270 610016">
+          Tel:+44 1270 610 016
         </Link>
       </Typography>
       <Typography>

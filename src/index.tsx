@@ -13,14 +13,14 @@ import { getAllResponses } from "db/admin_functions";
 
 const db = new Database("./db/db.sqlite");
 
-const getUser = (code: string) => {
+const getUser = (code: string): User | null => {
   const result = db
     .query("SELECT * FROM users WHERE code=$code OR user_id=$code")
     .get({
       $code: code,
     }) as User;
   if (!result) {
-    return ObjResp({ error: "user_code does not exist" }, 404);
+    return null;
   }
   return result;
 };
@@ -30,12 +30,9 @@ const ObjResp = (
   status: number = 200,
   headers = {},
 ) => {
-  return new Response(JSON.stringify(r), {
+  return Response.json(r, {
     status,
-    headers: {
-      "Content-Type": "application/json",
-      ...headers,
-    },
+    headers,
   });
 };
 initialise_db(db);
@@ -95,7 +92,7 @@ const server = serve({
           return ObjResp(
             {
               error:
-                "No user_code query param provided. Ensure you entered the whole URL you were provided",
+                "No user_code query param provided. Try logging out at the top of RSVP and trying again",
             },
             401,
           );
@@ -103,11 +100,11 @@ const server = serve({
 
         const user = getUser(userId);
 
-        if (!user || user instanceof Response) {
+        if (!user) {
           return ObjResp(
             {
               error:
-                "user does not exist. Ensure you entered the whole URL you were provided",
+                "user does not exist. Try logging out at the top of RSVP and trying again",
             },
             403,
           );
@@ -150,7 +147,7 @@ const server = serve({
             user.user_id,
             attending ? 1 : 0,
             partner_attending ? 1 : 0,
-            children || 0,
+            children.length ? JSON.stringify(children) : "[]",
             dietry_reqs || "",
             notes || "",
           );
@@ -221,7 +218,12 @@ const server = serve({
     "/api/get_user/:code": async (
       req: Bun.BunRequest<"/api/get_user/:code">,
     ) => {
-      return Response.json(getUser(req.params.code));
+      const user = getUser(req.params.code);
+      if (user) {
+        return Response.json(user);
+      } else {
+        return Response.json({ error: "user_code not found" }, { status: 404 });
+      }
     },
     "/api/submission": async (req: Bun.BunRequest<"/api/submission">) => {
       const { searchParams } = new URL(req.url);
@@ -291,10 +293,20 @@ const server = serve({
                   main: -1,
                   dessert: -1,
                 },
+                mealChoiceString: {
+                  starter: "",
+                  main: "",
+                  dessert: "",
+                },
                 partnerMealChoice: {
                   starter: -1,
                   main: -1,
                   dessert: -1,
+                },
+                partnerMealChoiceString: {
+                  starter: "",
+                  main: "",
+                  dessert: "",
                 },
                 dietryReqs: row.dietry_reqs,
                 children: row.children,
@@ -302,8 +314,12 @@ const server = serve({
               };
             }
             if (row.for_partner) {
+              acc[userId].partnerMealChoiceString[row.meal_type] =
+                row.food_description;
               acc[userId].partnerMealChoice[row.meal_type] = row.food_id;
             } else {
+              acc[userId].mealChoiceString[row.meal_type] =
+                row.food_description;
               acc[userId].mealChoice[row.meal_type] = row.food_id;
             }
             return acc;

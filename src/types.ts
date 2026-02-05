@@ -12,6 +12,12 @@ export interface MealChoice {
   dessert: number;
 }
 
+export interface ChildMealChoice {
+  name:string
+  needsHighChair:boolean
+  bringOwnFood:boolean
+}
+
 export interface FoodOption {
   description: string;
   type: "starter" | "main" | "dessert";
@@ -32,7 +38,7 @@ export interface FormResponse {
   meal_choice: MealChoice;
   partner_meal_choice: MealChoice;
   dietry_reqs: string;
-  children: number;
+  children: ChildMealChoice[];
   notes: string;
 }
 
@@ -60,9 +66,11 @@ export interface UserResponse {
   partner_attending: boolean,
   partner_name: string;
   mealChoice: Record<MealType, number>;
+  mealChoiceString: Record<MealType, string>;
   partnerMealChoice: Record<MealType, number>;
+  partnerMealChoiceString: Record<MealType, string>;
   dietryReqs: string;
-  children: number;
+  children: string;
   notes: string;
 }
 
@@ -74,10 +82,11 @@ export interface DatabaseResponse {
   partner_attending: string;
   partner_name: string;
   food_id: number;
+  food_description: string;
   for_partner: boolean;
   dietry_reqs: string;
   meal_type: MealType;
-  children: number;
+  children: string;
   notes: string;
 }
 

@@ -1,14 +1,26 @@
+
 export default {
   attendingBlock: {
     attending: {
-      label: "Will you be attending?",
+      label: "Will you be joining us?",
       no: "No, but I'll be there in spirit",
       yes: "Yes, I can't wait!",
     },
-    name: "Name (Please feel free to correct any spelling errors here)",
+    name: "Your Name: (Please feel free to correct any spelling errors here)",
   },
-  button: {
-    submit: "Submit",
+  childAttendingBlock:{
+    childName:"Child {{count}} Name",
+    bringOwnFood:"I will be bringing my own food for this child.",
+    highchair:"This child will require a highchair",
+    description: "The Children's menu is fixed, and will be XXX,YYY,ZZZ"
+  },
+
+  common: {
+    and: "&",
+    button: {
+      submit: "Submit",
+      back:"Back to Home"
+    },
   },
   details: {
     accomodation: {
@@ -27,14 +39,14 @@ export default {
     dateAndTime: {
       ceremony: "Ceremony at midday",
       longDate: "Saturday, 22nd August 2026",
-      seated: "Guests to be seated by 11.45",
+      seated: "Guests to be seated by 11:45am",
       title: "Date & Time",
     },
     dressCode: {
       description:
         "We are hoping for an outdoor ceremony (weather permitting!). Since this will mean walking on grass, we suggest choosing your footwear accordingly.",
       dressCode: "Dress Code: Formal - Suited and Booted!",
-      title: "What to wear",
+      title: "What to Wear",
     },
     gifts: {
       description:
@@ -43,6 +55,7 @@ export default {
         "International Guests: IBAN:GB56SRLG60837162999637 | SWIFT/BIC: SRLGGB2L",
       national:
         "Bank Transfer: Claudine Richardson | Sort Code: 60-83-71 | Account: 62999637",
+      paypal: "Contribute via PayPal",
       title: "Gifts",
     },
     map: "Map",
@@ -59,10 +72,10 @@ export default {
     },
     transport: {
       airport:
-        "<1>The nearest airport to the venue is <2>Manchester Airport</2>, which is approximately 40 minutes away. Find the Google Maps route <3>here</3>.</1>",
-      parking: "There is plenty of parking available directly at Rookery Hall.",
+        "<1>The nearest airport to Rookery Hall is <2>Manchester Airport</2>, which is approximately 40 minutes away. Find the Google Maps route <3>here</3>.</1>",
+      parking: "There is plenty of parking available directly at the venue.",
       taxis:
-        "<1>As Rookery Hall is in a rural area, taxis should be booked in advance via <2>A Star Taxis</2>(<3></3>). We recommend booking your return taxi for midnight to coincide with the end of the celebrations.</1>",
+        "<1>As Rookery Hall is in a rural area, taxis should be booked in advance via <2>A Star Taxis</2>(<3>+44 1270 895 044</3>). We recommend booking your return taxi for midnight to coincide with the end of the celebrations.</1>",
       title: "Transport",
     },
   },
@@ -74,5 +87,43 @@ export default {
     lastPlaceholder: "Last Name",
     maybe: "<1>You're <2>(maybe)</2> Invited?</1>",
     query: "Hello! Please Enter your first/last name",
+    error:{
+      userNotFound: "User not found.",
+      noUserHelp:"Ensure you're using your name as-written on your invite. Otherwise, contact us!",
+      noFirstLast: "Please provide both first and last name."
+    }
+  },
+  isAttending: {
+    children:
+      "How many little ones will be attending? We'd love to see them there, but if you'd prefer to use our wedding as an excuse for a well-deserved night off, we completely understand!",
+    dietry:
+      "Please let us know if you are vegetarian, vegan, or have any specific food allergies or dietary requirements we should share with the chef.",
+    notes:
+      "Anything else we should know? Please share any other notes or special requirements here—whether it's accessibility needs, transport questions, or anything else we can do to make your day more comfortable!",
+  },
+  isNotAttending: {
+    text1:"We'll miss you!",
+    text2:"Thank you for letting us know. We're so sorry you won't be able to join us, but we completely understand.",
+    text3:"You are still more than welcome to browse our website if you'd like to see our wedding schedule or honeymoon plans. We'll be sure to share photos with you after the big day!",
+    text4:"If you'd like to leave a message or some well-wishes for us to read, please feel free to share them here.",
+  },
+  form: {
+    submitSuccessHeader: "Your RSVP is confirmed!",
+    submitSuccessBody:
+      "If you need to change anything before the 22nd of July, just come back to the site and update your form. Feel free to come back anytime to check details.",
+    submitSuccessAttending: "See you on the 22nd of August!",
+    submitSuccessNotAttending1:"We'll miss you!",
+    submitSuccessNotAttending2:"If you change your mind before the 22nd of July, just come back to the site and update your form. And you can come back at anytime to double check details.",
+    submitSuccessNotAttending3:"With love, Sam & Claudine",
+    submitFailed: "RSVP Submit failed.",
+    title: "RSVP",
+    respondBy: "Please let us know if you can join us by",
+    respondByDate: "Wednesday 22nd July, 2026",
+    description:
+      "<1>Welcome {{- names}}. We are so excited to share our day with you. If this isn't you, please <2>click here to sign in as someone else.</2></1>",
+    descriptionReceived:
+      "<1>Thank you {{- names}}. We have already received an RSVP from you. If this isn't you, please <2>click here to sign in as someone else.</2></1>",
+    editButton: "Edit Response",
+    submit: "Submit RSVP",
   },
 } as const;

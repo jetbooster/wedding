@@ -1,28 +1,32 @@
 import { DialogContext } from "@/context/DialogContext";
 import { UserContext } from "@/context/UserContext";
-import { Button, Paper, Stack, Typography } from "@mui/material";
+import { Button, Link, Paper, Stack, Typography } from "@mui/material";
 import { AnimatePresence, motion } from "motion/react";
 import { useContext, useEffect, useState } from "react";
 import { submitResponse } from "../../api_calls";
-import { FormErrors, MealChoice, MuiToggleHandler } from "../../types";
+import {
+  ChildMealChoice,
+  FormErrors,
+  MealChoice,
+  MuiToggleHandler,
+} from "../../types";
 import AttendingBlock from "./AttendingBlock";
 import { IsAttending } from "./IsAttending";
 import { IsNotAttending } from "./IsNotAttending";
-
-const BLANK_MEAL_CHOICE: MealChoice = {
-  starter: -1,
-  main: -1,
-  dessert: -1,
-};
-const BLANK_MEAL_ERRORS: FormErrors["mealChoice"] = {
-  starter: false,
-  main: false,
-  dessert: false,
-};
+import { Trans, useTranslation } from "react-i18next";
+import { insert } from "@/utils";
+import { fill } from "lodash";
+import {
+  BLANK_CHILD_MEAL_CHOICE,
+  BLANK_MEAL_CHOICE,
+  BLANK_MEAL_ERRORS,
+} from "@/constants";
 
 export function Form() {
   const { user, setUser, userResponse } = useContext(UserContext);
   const { setContent } = useContext(DialogContext);
+  const { t } = useTranslation(undefined, { keyPrefix: "form" });
+  const { t: t2 } = useTranslation(undefined, { keyPrefix: "common" });
   const [name, setName] = useState<string | undefined>(user?.name);
   const [attending, setAttending] = useState<"yes" | "no" | undefined>(
     !userResponse ? undefined : userResponse.attending ? "yes" : "no",
@@ -45,6 +49,9 @@ export function Form() {
   const [children, setChildren] = useState<string | undefined>(
     (userResponse && userResponse.children.toString()) || "0",
   );
+  const [childrenMealChoices, setChildrenMealChoices] = useState<
+    ChildMealChoice[]
+  >([]);
   const [dietryReqs, setDietryReqs] = useState<string | undefined>(
     (userResponse && userResponse.dietryReqs) || undefined,
   );
@@ -105,6 +112,13 @@ export function Form() {
       ...prev,
       [type]: mealChoice,
     }));
+  };
+
+  const handleSetChildren = (childs: string | undefined) => {
+    if (Number.isInteger(Number(childs)) && Number(childs) >= 0) {
+      setChildrenMealChoices(fill(Array(childs), BLANK_CHILD_MEAL_CHOICE));
+      setChildren(childs);
+    }
   };
 
   useEffect(() => {
@@ -182,6 +196,20 @@ export function Form() {
     return dirty;
   };
 
+  const handleChildrenMealChoiceChange = (
+    index: number,
+    childMealChoice: ChildMealChoice,
+  ) => {
+    console.log(childMealChoice, index);
+    const newChildrenMealChoices = insert(
+      childrenMealChoices,
+      index,
+      childMealChoice,
+    );
+    console.log(newChildrenMealChoices);
+    setChildrenMealChoices(newChildrenMealChoices);
+  };
+
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (dirty && event.target.value && event.target.value.length > 0) {
       setDirty(false);
@@ -213,17 +241,39 @@ export function Form() {
         meal_choice: mealChoice,
         partner_meal_choice: partnerMealChoice,
         dietry_reqs: dietryReqs,
-        children: Number(children),
+        children: childrenMealChoices.filter(Boolean),
         notes,
       },
       user?.user_id,
     )
       .then(() => {
-        setContent({ message: "Submission received!" });
+        if (attending === "yes") {
+          setContent({
+            header: t("submitSuccessHeader"),
+            message: t("submitSuccessBody"),
+            messageAdditional: [
+              t("submitSuccessAttending"),
+              `Sam ${t2("and")} Claudine`,
+            ],
+          });
+        } else {
+          setContent({
+            header: t("submitSuccessHeader"),
+            message: t("submitSuccessNotAttending1"),
+            messageAdditional: [
+              t("submitSuccessNotAttending2"),
+              t("submitSuccessNotAttending3"),
+            ],
+          });
+        }
         setRsvpOpen(false);
       })
       .catch((e) => {
-        setContent({ message: e.message, isError: true });
+        setContent({
+          header: t("submitFailed"),
+          message: e.message,
+          isError: true,
+        });
       });
   };
 
@@ -236,7 +286,7 @@ export function Form() {
   }
   return (
     <Paper sx={{ marginTop: "1.5em", zIndex: 20, position: "relative" }}>
-      <h2 className="fancy">RSVP</h2>
+      <h2 className="fancy">{t("title")}</h2>
       {rsvpOpen ? (
         <form onSubmit={handleSubmit}>
           <Stack
@@ -245,27 +295,26 @@ export function Form() {
             sx={{ transition: "height ease-in-out 0.2s" }}
           >
             <Typography>
-              Please let us know if you can join us by{" "}
-              <b>Wednesday 22nd July, 2026</b>
+              {t("respondBy")} <b>{t("respondByDate")}</b>
             </Typography>
-            <Typography>
-              Welcome {names.join(" & ")}. We are so excited to share our day
-              with you. If this isn&apos;t you, please{" "}
-              <Button
-                variant="text"
-                sx={{
-                  textTransform: "initial",
-                  textDecoration: "underline",
-                  padding: "1px",
-                }}
-                onClick={() => {
-                  setUser(undefined);
-                  localStorage.removeItem("user_code");
-                }}
-              >
-                click here to sign out
-              </Button>
-            </Typography>
+            <Trans
+              t={t}
+              i18nKey={"description"}
+              values={{ names: names.join(" & ") }}
+              components={{
+                1: <Typography />,
+                2: (
+                  <Link
+                    variant="body1"
+                    sx={{ cursor: "pointer" }}
+                    onClick={() => {
+                      setUser(undefined);
+                      localStorage.removeItem("user_code");
+                    }}
+                  />
+                ),
+              }}
+            />
             <AttendingBlock
               name={user?.name || ""}
               attending={attending}
@@ -309,7 +358,9 @@ export function Form() {
                   <IsAttending
                     child={Number(children)}
                     notes={notes}
-                    changeChildren={setChildren}
+                    changeChildren={handleSetChildren}
+                    childrenMealChoices={childrenMealChoices}
+                    changeChildrenMealChoices={handleChildrenMealChoiceChange}
                     changeNotes={setNotes}
                     dietryReqs={dietryReqs}
                     changeDietryReqs={setDietryReqs}
@@ -342,31 +393,31 @@ export function Form() {
         </form>
       ) : (
         <div style={{ padding: "1rem" }}>
-          <Typography>
-            Thank you {names.join(" & ")}! We have already received an RSVP from
-            your party. If this isn&apos;t you, please{" "}
-            <Button
-              variant="text"
-              sx={{
-                textTransform: "initial",
-                textDecoration: "underline",
-                padding: "1px",
-              }}
-              onClick={() => {
-                setUser(undefined);
-                localStorage.removeItem("user_code");
-              }}
-            >
-              click here to sign out
-            </Button>
-          </Typography>
+          <Trans
+            t={t}
+            i18nKey={"descriptionReceived"}
+            values={{ names: names.join(" & ") }}
+            components={{
+              1: <Typography />,
+              2: (
+                <Link
+                  variant="body1"
+                  sx={{ cursor: "pointer" }}
+                  onClick={() => {
+                    setUser(undefined);
+                    localStorage.removeItem("user_code");
+                  }}
+                />
+              ),
+            }}
+          />
           <div style={{ marginTop: "1rem" }}>
             <Button
               variant="contained"
-              sx={{ width: "100%" }}
+              fullWidth
               onClick={() => setRsvpOpen(true)}
             >
-              Edit Response
+              {t("editButton")}
             </Button>
           </div>
         </div>

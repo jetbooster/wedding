@@ -14,10 +14,23 @@ export function App() {
   useEffect(() => {
     const interval = 750;
     const curr = ref.current;
-    for (const [index, val] of Array(...(curr?.children || [])).entries()) {
-      setTimeout(() => {
+    const children = Array(...(curr?.children || []));
+    if (!localStorage.getItem("animation complete")) {
+      for (const [index, val] of children.entries()) {
+        setTimeout(() => {
+          val.classList.add("fade-in");
+        }, index * interval);
+        if (
+          index === (curr?.children.length ?? 999) - 1 &&
+          curr?.getAttribute("data-main")
+        ) {
+          localStorage.setItem("animation complete", "true");
+        }
+      }
+    } else {
+      for (const [, val] of children.entries()) {
         val.classList.add("fade-in");
-      }, index * interval);
+      }
     }
   });
 

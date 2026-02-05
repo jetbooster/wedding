@@ -3,10 +3,6 @@ import { Database } from "bun:sqlite";
 
 const thisFolder = import.meta.dir;
 
-
-
-
-
 export const getAllResponses = (db: Database) => {
   const result = db
     .query(
@@ -18,6 +14,7 @@ export const getAllResponses = (db: Database) => {
     resp.partner_attending as partner_attending,
     u.partner_name as partner_name,
     f.description as food_description,
+    f.food_id as food_id,
     mc.for_partner as for_partner,
     mc.meal_type as meal_type,
     resp.children as children,
@@ -26,32 +23,57 @@ export const getAllResponses = (db: Database) => {
     natural join meal_choices mc
     natural join users u
     natural join food f    
-  WHERE resp.attending = 1;`
+  WHERE resp.attending = 1;`,
     )
     .all() as DatabaseResponse[];
 
   return Object.values(
-    result.reduce((acc, row) => {
-      const userId = row.user_id;
-      if (!acc[userId]) {
-        acc[userId] = {
-          name: row.name,
-          attending: Boolean(row.attending),
-          partner_attending: Boolean(row.partner_attending),
-          partner_name: row.partner_name,
-          mealChoice: {},
-          partnerMealChoice: {},
-          children: row.children,
-          notes: row.notes,
-        };
-      }
-      if (row.for_partner) {
-        acc[userId].partnerMealChoice[row.meal_type] = row.food_description;
-      } else {
-        acc[userId].mealChoice[row.meal_type] = row.food_description;
-      }
-      return acc;
-    }, {} as Record<number, UserResponse>)
+    result.reduce(
+      (acc, row) => {
+        const userId = row.user_id;
+        if (!acc[userId]) {
+          acc[userId] = {
+            name: row.name,
+            attending: Boolean(row.attending),
+            partner_attending: Boolean(row.partner_attending),
+            partner_name: row.partner_name,
+            mealChoice: {
+              starter: -1,
+              main: -1,
+              dessert: -1,
+            },
+            mealChoiceString: {
+              starter: "",
+              main: "",
+              dessert: "",
+            },
+            partnerMealChoice: {
+              starter: -1,
+              main: -1,
+              dessert: -1,
+            },
+            partnerMealChoiceString: {
+              starter: "",
+              main: "",
+              dessert: "",
+            },
+            dietryReqs: row.dietry_reqs,
+            children: row.children,
+            notes: row.notes,
+          };
+        }
+        if (row.for_partner) {
+          acc[userId].partnerMealChoiceString[row.meal_type] =
+            row.food_description;
+          acc[userId].partnerMealChoice[row.meal_type] = row.food_id;
+        } else {
+          acc[userId].mealChoiceString[row.meal_type] = row.food_description;
+          acc[userId].mealChoice[row.meal_type] = row.food_id;
+        }
+        return acc;
+      },
+      {} as Record<number, UserResponse>,
+    ),
   );
 };
 

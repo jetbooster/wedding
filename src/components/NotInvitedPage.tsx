@@ -7,6 +7,7 @@ import { UserContext } from "@/context/UserContext";
 import { getUserByName } from "@/api_calls";
 import { DialogContext } from "@/context/DialogContext";
 import { Trans, useTranslation } from "react-i18next";
+import { toTitleCase } from "@/utils";
 
 interface NotInvitedPageProps {
   ref: RefObject<HTMLDivElement | null>;
@@ -23,7 +24,7 @@ const NotInvitedPage: FC<NotInvitedPageProps> = ({ ref }) => {
     e.preventDefault();
     setLoading(true);
 
-    getUserByName(first, last)
+    getUserByName(toTitleCase(first), toTitleCase(last))
       .then((user) => {
         if (user) {
           setUser(user);
@@ -32,7 +33,9 @@ const NotInvitedPage: FC<NotInvitedPageProps> = ({ ref }) => {
       .catch((error) => {
         console.log(error);
         setContent({
-          message: t(error.message, { keyPrefix: "invited.error" }),
+          header: t("invited.error.noUser"),
+          message: t(`invited.error.${error.message}`),
+          messageAdditional: [t("invited.error.noUserHelp")],
           isError: true,
         });
       })
@@ -82,7 +85,7 @@ const NotInvitedPage: FC<NotInvitedPageProps> = ({ ref }) => {
             onChange={(e) => setLast(e.target.value)}
           />
           <Button fullWidth variant="contained" loading={loading} type="submit">
-            {t("button.submit")}
+            {t("common.button.submit")}
           </Button>
         </form>
       </Paper>
