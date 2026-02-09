@@ -10,11 +10,11 @@ const OrderOfTheDay = () => {
     ["11:45am", t("seated")],
     ["12:00pm", t("ceremony")],
     ["12:30pm", t("drinks")],
-    ["2:00pm", t("breakfast")],
-    ["3:30pm", t("speeches")],
+    ["3:00pm", t("breakfast")],
+    ["5:30pm", t("speeches")],
     ["6:45pm", t("cutting")],
     ["7:00pm", t("dancing")],
-    ["12:00am", t("carriages")],
+    ["1:00am", t("carriages")],
   ];
   return (
     <Grid size={1} sx={{ lineHeight: "0.8rem" }}>

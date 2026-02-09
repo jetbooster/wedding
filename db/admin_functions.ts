@@ -13,7 +13,8 @@ export const getAllResponses = (db: Database) => {
     resp.attending as attending,
     resp.partner_attending as partner_attending,
     u.partner_name as partner_name,
-    f.description as food_description,
+    f.description_en as food_description_en,
+    f.description_fr as food_description_fr,
     f.food_id as food_id,
     mc.for_partner as for_partner,
     mc.meal_type as meal_type,
@@ -64,10 +65,10 @@ export const getAllResponses = (db: Database) => {
         }
         if (row.for_partner) {
           acc[userId].partnerMealChoiceString[row.meal_type] =
-            row.food_description;
+            row.food_description_en;
           acc[userId].partnerMealChoice[row.meal_type] = row.food_id;
         } else {
-          acc[userId].mealChoiceString[row.meal_type] = row.food_description;
+          acc[userId].mealChoiceString[row.meal_type] = row.food_description_en;
           acc[userId].mealChoice[row.meal_type] = row.food_id;
         }
         return acc;

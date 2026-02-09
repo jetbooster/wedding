@@ -1,4 +1,3 @@
-
 export default {
   attendingBlock: {
     attending: {
@@ -8,18 +7,18 @@ export default {
     },
     name: "Your Name: (Please feel free to correct any spelling errors here)",
   },
-  childAttendingBlock:{
-    childName:"Child {{count}} Name",
-    bringOwnFood:"I will be bringing my own food for this child.",
-    highchair:"This child will require a highchair",
-    description: "The Children's menu is fixed, and will be XXX,YYY,ZZZ"
+  childAttendingBlock: {
+    childName: "Child {{count}} Name:",
+    bringOwnFood: "We will be bringing our own food for them",
+    highchair: "They will require a highchair",
+    description: "Please provide a 3-course Children's Meal (Starter: [Menu], Main: [Menu], Dessert: [Menu] TO ADD",
   },
-
   common: {
     and: "&",
     button: {
-      submit: "Submit",
-      back:"Back to Home"
+      submit: "Submit {{extra}}",
+      back: "Back to Home",
+      tryAgain:"Try Again"
     },
   },
   details: {
@@ -75,46 +74,55 @@ export default {
         "<1>The nearest airport to Rookery Hall is <2>Manchester Airport</2>, which is approximately 40 minutes away. Find the Google Maps route <3>here</3>.</1>",
       parking: "There is plenty of parking available directly at the venue.",
       taxis:
-        "<1>As Rookery Hall is in a rural area, taxis should be booked in advance via <2>A Star Taxis</2>(<3>+44 1270 895 044</3>). We recommend booking your return taxi for midnight to coincide with the end of the celebrations.</1>",
+        "<1>As Rookery Hall is in a rural area, taxis should be booked in advance via <2>A Star Taxis</2>(<3>+44 1270 895 044</3>).</1>",
       title: "Transport",
     },
   },
   invited: {
     "1": "You're Invited!",
     "2": "To the Wedding of",
+    "2_alt":"The Wedding of",
     "3": "&",
     firstPlaceholder: "First Name",
     lastPlaceholder: "Last Name",
-    maybe: "<1>You're <2>(maybe)</2> Invited?</1>",
-    query: "Hello! Please Enter your first/last name",
-    error:{
-      userNotFound: "User not found.",
-      noUserHelp:"Ensure you're using your name as-written on your invite. Otherwise, contact us!",
-      noFirstLast: "Please provide both first and last name."
-    }
+    query: "We can't wait to celebrate with you. To get started, please enter your name as it appears on your invitation.",
+    query2:"If you're RSVPing for a family or couple, just enter one of your names to see the whole group.",
+    error: {
+      userNotFound: "We couldn't find a match for that name.",
+      userNotFound2: "We're having trouble finding you",
+      noUserHelp:
+        "Please make sure that it matches the spelling on your invite. If you're still having trouble, just reach out to us!",
+      noFirstLast: "Please provide both first and last name.",
+    },
   },
   isAttending: {
     children:
       "How many little ones will be attending? We'd love to see them there, but if you'd prefer to use our wedding as an excuse for a well-deserved night off, we completely understand!",
     dietry:
-      "Please let us know if you are vegetarian, vegan, or have any specific food allergies or dietary requirements we should share with the chef.",
+      "Please let us know if you are vegetarian, vegan, or have any specific food allergies or dietary requirements in your party, that we should share with the chef.",
     notes:
       "Anything else we should know? Please share any other notes or special requirements here—whether it's accessibility needs, transport questions, or anything else we can do to make your day more comfortable!",
   },
   isNotAttending: {
-    text1:"We'll miss you!",
-    text2:"Thank you for letting us know. We're so sorry you won't be able to join us, but we completely understand.",
-    text3:"You are still more than welcome to browse our website if you'd like to see our wedding schedule or honeymoon plans. We'll be sure to share photos with you after the big day!",
-    text4:"If you'd like to leave a message or some well-wishes for us to read, please feel free to share them here.",
+    text1: "We'll miss you!",
+    text2:
+      "Thank you for letting us know. We're so sorry you won't be able to join us, but we completely understand.",
+    text3:
+      "You are still more than welcome to browse our website if you'd like to see our wedding schedule or honeymoon plans. We'll be sure to share photos with you after the big day!",
+    text4:
+      "If you'd like to leave a message or some well-wishes for us to read, please feel free to share them here.",
   },
   form: {
     submitSuccessHeader: "Your RSVP is confirmed!",
     submitSuccessBody:
-      "If you need to change anything before the 22nd of July, just come back to the site and update your form. Feel free to come back anytime to check details.",
+      "If you need to change anything before the 1st of July, just come back to the site and update your form. ",
+    submitSuccessBody2: "Feel free to come back anytime to check details.",
     submitSuccessAttending: "See you on the 22nd of August!",
-    submitSuccessNotAttending1:"We'll miss you!",
-    submitSuccessNotAttending2:"If you change your mind before the 22nd of July, just come back to the site and update your form. And you can come back at anytime to double check details.",
-    submitSuccessNotAttending3:"With love, Sam & Claudine",
+    submitSuccessNotAttending1: "We'll miss you!",
+    submitSuccessNotAttending2:
+      "If you change your mind before the 1st of July, just come back to the site and update your form.",
+    submitSuccessNotAttending3: "And you can come back at anytime to double check details.",
+    submitSuccessNotAttending4: "With love, Sam & Claudine",
     submitFailed: "RSVP Submit failed.",
     title: "RSVP",
     respondBy: "Please let us know if you can join us by",
@@ -123,7 +131,16 @@ export default {
       "<1>Welcome {{- names}}. We are so excited to share our day with you. If this isn't you, please <2>click here to sign in as someone else.</2></1>",
     descriptionReceived:
       "<1>Thank you {{- names}}. We have already received an RSVP from you. If this isn't you, please <2>click here to sign in as someone else.</2></1>",
-    editButton: "Edit Response",
+    editButton: "Edit RSVP",
     submit: "Submit RSVP",
+  },
+  mealSelector: {
+    title: "The Menu. Please select your{{- partner_possessive}} choices for the wedding breakfast below:",
+    starter: "the starter",
+    main: "the main",
+    dessert: "the desert",
+    partner: " Partner",// keep the space at the front
+    partner_possessive: " partner's", // keep the space
+    placeholder:"Select{{partner}} {{type}}"
   },
 } as const;

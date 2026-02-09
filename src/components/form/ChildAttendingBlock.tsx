@@ -5,6 +5,8 @@ import {
   FormControlLabel,
   FormGroup,
   OutlinedInput,
+  Radio,
+  RadioGroup,
   Typography,
 } from "@mui/material";
 import { FC } from "react";
@@ -50,18 +52,7 @@ const ChildAttendingBlock: FC<ChildAttendingBlock> = ({
           sx={{ backgroundColor: "#ffffe6" }}
         />
       </FormControl>
-      <Typography>{t("description")}</Typography>
       <FormGroup>
-        <FormControlLabel
-          control={<Checkbox />}
-          label={t("bringOwnFood")}
-          onChange={(_, checked) => {
-            handleMealChange(childIndex, {
-              ...childMealChoice,
-              bringOwnFood: checked,
-            });
-          }}
-        />
         <FormControlLabel
           control={<Checkbox />}
           label={t("highchair")}
@@ -73,6 +64,29 @@ const ChildAttendingBlock: FC<ChildAttendingBlock> = ({
           }}
         />
       </FormGroup>
+      <RadioGroup
+        defaultValue="false"
+        onChange={(event) => {
+          handleMealChange(childIndex, {
+            ...childMealChoice,
+            bringOwnFood: event.target.value === "true",
+          });
+        }}
+        sx={{
+          marginLeft: "2rem",
+        }}
+      >
+        <FormControlLabel
+          value="false"
+          control={<Radio />}
+          label={t("description")}
+        />
+        <FormControlLabel
+          value="true"
+          control={<Radio />}
+          label={t("bringOwnFood")}
+        />
+      </RadioGroup>
     </div>
   );
 };

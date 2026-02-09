@@ -8,9 +8,10 @@ export default (db: Database) => {
   db.run(`
   CREATE TABLE IF NOT EXISTS 'food' (
     food_id INTEGER PRIMARY KEY,
-    description TEXT,
+    description_en TEXT,
+    description_fr TEXT,
     type TEXT CHECK (type IN ('starter', 'main', 'dessert')),
-    UNIQUE (description, type)
+    UNIQUE (description_en, type)
   );`);
 
   db.run(`
@@ -58,7 +59,7 @@ export default (db: Database) => {
     `);
 
   const insertFood = db.prepare(
-    `INSERT INTO food (description,type) VALUES ($desc,$type) ON CONFLICT(description, type) DO NOTHING`,
+    `INSERT INTO food (description_en,description_fr,type) VALUES ($desc_en,$desc_fr,$type) ON CONFLICT(description_en, type) DO NOTHING`,
   );
 
   const insertFoods = db.transaction((foods) => {
@@ -66,14 +67,15 @@ export default (db: Database) => {
   });
 
   insertFoods([
-    { $desc: "Yummy Yummy Gravy", $type: "starter" },
-    { $desc: "Yummy Yummy Soup", $type: "starter" },
-    { $desc: "Yummy Yummy Salad", $type: "starter" },
-    { $desc: "Yummy Yummy Chicken", $type: "main" },
-    { $desc: "Yummy Yummy Beef", $type: "main" },
-    { $desc: "Yummy Yummy Vegan", $type: "main" },
-    { $desc: "Yummy Yummy Chocolate", $type: "dessert" },
-    { $desc: "Yummy Yummy Cheesecake", $type: "dessert" },
+    { $desc_fr:"",$desc_en: "Ham hock croquette with apple puree, celeriac and apple slaw, and micro leaf salad", $type: "starter" },
+    { $desc_fr:"",$desc_en: "Smoked haddock and new potato fishcake with dill and lemon mayonnaise, gem", $type: "starter" },
+    { $desc_fr:"",$desc_en: "Roast tomato & red pepper soup with basil and sourdough croutons (Vegan)", $type: "starter" },
+    { $desc_fr:"",$desc_en: "Slow cooked beef shin with buttered chive mash, confit carrot, tender stem broccoli, and bourguignon sauce", $type: "main" },
+    { $desc_fr:"",$desc_en: "Baked salmon fillet with anna potatoes, spinach, dill hollandaise and herb oil", $type: "main" },
+    { $desc_fr:"",$desc_en: "Wild mushroom and spinach wellington with seasonal potatoes and vegetables, and jus (Vegan)", $type: "main" },
+    { $desc_fr:"",$desc_en: "Lemon tart with fresh raspberries and clotted cream", $type: "dessert" },
+    { $desc_fr:"",$desc_en: "Baked cheesecake with strawberry compote and a white chocolate soil", $type: "dessert" },
+    { $desc_fr:"",$desc_en: "Chocolate brownie with vanilla ice cream (Vegan)", $type: "dessert" },
   ]);
 
 };

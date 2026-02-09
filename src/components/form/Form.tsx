@@ -22,6 +22,16 @@ import {
   BLANK_MEAL_ERRORS,
 } from "@/constants";
 
+const jsonSafeParse = (s: string, fallback: unknown) => {
+  try {
+    const res = JSON.parse(s);
+    console.log(res);
+    return res;
+  } catch {
+    return fallback;
+  }
+};
+
 export function Form() {
   const { user, setUser, userResponse } = useContext(UserContext);
   const { setContent } = useContext(DialogContext);
@@ -47,7 +57,9 @@ export function Form() {
     (userResponse && userResponse.partnerMealChoice) || BLANK_MEAL_CHOICE,
   );
   const [children, setChildren] = useState<string | undefined>(
-    (userResponse && userResponse.children.toString()) || "0",
+    (userResponse &&
+      jsonSafeParse(userResponse.children, []).length.toString()) ||
+      "0",
   );
   const [childrenMealChoices, setChildrenMealChoices] = useState<
     ChildMealChoice[]
@@ -67,7 +79,7 @@ export function Form() {
       setMealChoice(userResponse.mealChoice);
       setPartnerMealChoice(userResponse.partnerMealChoice);
       setNotes(userResponse.notes);
-      setChildren(userResponse.children.toString());
+      setChildren(jsonSafeParse(userResponse.children, []).length.toString());
       setDietryReqs(userResponse.dietryReqs);
     }
   }, [userResponse]);
@@ -115,9 +127,14 @@ export function Form() {
   };
 
   const handleSetChildren = (childs: string | undefined) => {
+    console.log(childs);
     if (Number.isInteger(Number(childs)) && Number(childs) >= 0) {
       setChildrenMealChoices(fill(Array(childs), BLANK_CHILD_MEAL_CHOICE));
-      setChildren(childs);
+      setChildren(childs || "0");
+    }
+    if (Number.isInteger(Number(childs)) && Number(childs) === 0) {
+      setChildrenMealChoices([]);
+      setChildren("0");
     }
   };
 
@@ -230,6 +247,7 @@ export function Form() {
     event.preventDefault();
     setWatching(true);
     if (processFormErrors()) {
+      console.log(formErrors);
       return;
     }
     submitResponse(
@@ -252,6 +270,7 @@ export function Form() {
             header: t("submitSuccessHeader"),
             message: t("submitSuccessBody"),
             messageAdditional: [
+              t("submitSuccessBody2"),
               t("submitSuccessAttending"),
               `Sam ${t2("and")} Claudine`,
             ],
@@ -263,6 +282,7 @@ export function Form() {
             messageAdditional: [
               t("submitSuccessNotAttending2"),
               t("submitSuccessNotAttending3"),
+              t("submitSuccessNotAttending4"),
             ],
           });
         }
@@ -387,7 +407,7 @@ export function Form() {
               variant="contained"
               disabled={dirty}
             >
-              Submit
+              {t2("button.submit", { extra: "RSVP" })}
             </Button>
           </Stack>
         </form>

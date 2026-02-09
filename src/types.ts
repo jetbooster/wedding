@@ -19,7 +19,8 @@ export interface ChildMealChoice {
 }
 
 export interface FoodOption {
-  description: string;
+  description_en: string;
+  description_fr: string;
   type: "starter" | "main" | "dessert";
   food_id: number;
 }
@@ -82,7 +83,8 @@ export interface DatabaseResponse {
   partner_attending: string;
   partner_name: string;
   food_id: number;
-  food_description: string;
+  food_description_en: string;
+  food_description_fr: string;
   for_partner: boolean;
   dietry_reqs: string;
   meal_type: MealType;

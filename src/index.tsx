@@ -315,11 +315,11 @@ const server = serve({
             }
             if (row.for_partner) {
               acc[userId].partnerMealChoiceString[row.meal_type] =
-                row.food_description;
+                row.food_description_en;
               acc[userId].partnerMealChoice[row.meal_type] = row.food_id;
             } else {
               acc[userId].mealChoiceString[row.meal_type] =
-                row.food_description;
+                row.food_description_en;
               acc[userId].mealChoice[row.meal_type] = row.food_id;
             }
             return acc;
@@ -334,7 +334,8 @@ const server = serve({
     "/api/get_food": async () => {
       const result = db.query(`SELECT * FROM food;`).all() as {
         type: string;
-        description: string;
+        description_en: string;
+        description_fr: string;
         food_id: number;
       }[];
 

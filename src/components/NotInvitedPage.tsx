@@ -6,7 +6,7 @@ import { Button } from "@mui/material";
 import { UserContext } from "@/context/UserContext";
 import { getUserByName } from "@/api_calls";
 import { DialogContext } from "@/context/DialogContext";
-import { Trans, useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import { toTitleCase } from "@/utils";
 
 interface NotInvitedPageProps {
@@ -33,7 +33,7 @@ const NotInvitedPage: FC<NotInvitedPageProps> = ({ ref }) => {
       .catch((error) => {
         console.log(error);
         setContent({
-          header: t("invited.error.noUser"),
+          header: t("invited.error.userNotFound2"),
           message: t(`invited.error.${error.message}`),
           messageAdditional: [t("invited.error.noUserHelp")],
           isError: true,
@@ -46,22 +46,7 @@ const NotInvitedPage: FC<NotInvitedPageProps> = ({ ref }) => {
   return (
     <div className="app">
       <div className="appear" ref={ref}>
-        <Trans
-          i18nKey="invited.maybe"
-          components={{
-            1: <h1 className="fancy" />,
-            2: <Typography display="inline" component="span" fontSize={40} />,
-          }}
-        >
-          <h1 className="fancy">
-            You&apos;re{" "}
-            <Typography display="inline" component="span" fontSize={40}>
-              (maybe)
-            </Typography>{" "}
-            Invited?
-          </h1>
-        </Trans>
-        <p className="fancy">{t("invited.2")}</p>
+        <p className="fancy">{t("invited.2_alt")}</p>
         <p className="fancy">Claudine Julie Richardson</p>
         <p className="fancy">{t("invited.3")}</p>
         <p className="fancy">Samuel Andrew Jarvis</p>
@@ -72,6 +57,7 @@ const NotInvitedPage: FC<NotInvitedPageProps> = ({ ref }) => {
           style={{ display: "flex", flexDirection: "column", gap: "10px" }}
         >
           <Typography>{t("invited.query")}</Typography>
+          <Typography>{t("invited.query2")}</Typography>
           <OutlinedInput
             fullWidth
             id="first-name"
@@ -85,7 +71,7 @@ const NotInvitedPage: FC<NotInvitedPageProps> = ({ ref }) => {
             onChange={(e) => setLast(e.target.value)}
           />
           <Button fullWidth variant="contained" loading={loading} type="submit">
-            {t("common.button.submit")}
+            {t("common.button.submit", { extra: "" })}
           </Button>
         </form>
       </Paper>

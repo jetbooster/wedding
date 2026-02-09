@@ -32,6 +32,7 @@ export const IsAttending = ({
   setDirty,
 }: IsAttendingProps) => {
   const { t } = useTranslation(undefined, { keyPrefix: "isAttending" });
+  console.log({ child: child });
   return (
     <Stack spacing={2}>
       <FormControl fullWidth>

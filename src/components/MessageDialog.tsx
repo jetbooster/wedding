@@ -57,7 +57,9 @@ export const MessageDialog = () => {
       <DialogTitle>{content.header}</DialogTitle>
       <MuiDialogContent>{body(content)}</MuiDialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>{t("button.back")}</Button>
+        <Button onClick={handleClose}>
+          {content.isError ? t("button.tryAgain") : t("button.back")}
+        </Button>
       </DialogActions>
     </Dialog>
   );

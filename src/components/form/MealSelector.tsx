@@ -7,6 +7,7 @@ import Select from "@mui/material/Select";
 import Typography from "@mui/material/Typography";
 import { Dispatch, SetStateAction, useContext } from "react";
 import { OutlinedInput } from "./OutlinedInput";
+import { useTranslation } from "react-i18next";
 
 interface MealSelectorProps {
   partner?: boolean;
@@ -35,12 +36,13 @@ export const MealSelector = ({
   changeMealChoice,
 }: MealSelectorProps) => {
   const { mealOptions } = useContext(MealContext);
+  const { t, i18n } = useTranslation(undefined, { keyPrefix: "mealSelector" });
   const makeGroup = (type: "starter" | "main" | "dessert") => {
     return (
       <Grid size={1}>
         <FormControl fullWidth>
           <Typography sx={{ textAlign: "left" }}>
-            {toTitleCase(type)}
+            {toTitleCase(t(type))}
           </Typography>
           <Select
             id={`mealChoice-${partner ? "partner-" : ""}${type}`}
@@ -56,11 +58,14 @@ export const MealSelector = ({
             input={<OutlinedInput />}
           >
             <MenuItem value={-1} disabled>
-              {`Select ${partner ? "Partner " : ""}${toTitleCase(type)}`}
+              {t("placeholder", {
+                partner: partner ? t("partner") : "",
+                type: toTitleCase(t(type)).split(" ")[1],
+              })}
             </MenuItem>
             {mealOptions[type].map((option) => (
               <MenuItem key={option.food_id} value={option.food_id}>
-                {option.description}
+                {option[`description_${i18n.language as "en" | "fr"}`]}
               </MenuItem>
             ))}
           </Select>
@@ -72,7 +77,9 @@ export const MealSelector = ({
   return (
     <>
       <Typography sx={{ textAlign: "left" }}>
-        {`${partner ? "Partner " : ""}`}Meal Choices
+        {t("title", {
+          partner_possessive: partner ? t("partner_possessive") : "",
+        })}
       </Typography>
       <Grid container columns={{ xs: 1, sm: 3 }} spacing={1}>
         {makeGroup("starter")}
