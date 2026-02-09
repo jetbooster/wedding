@@ -118,11 +118,9 @@ export default {
       "If you need to change anything before the 1st of July, just come back to the site and update your form. ",
     submitSuccessBody2: "Feel free to come back anytime to check details.",
     submitSuccessAttending: "See you on the 22nd of August!",
-    submitSuccessNotAttending1: "We'll miss you!",
-    submitSuccessNotAttending2:
-      "If you change your mind before the 1st of July, just come back to the site and update your form.",
-    submitSuccessNotAttending3: "And you can come back at anytime to double check details.",
-    submitSuccessNotAttending4: "With love, Sam & Claudine",
+    submitSuccessNotAttending1:
+      "If you change your mind before the 1st July, just come back to our website and update your RSVP.",
+    submitSuccessNotAttending2: "With love, Sam & Claudine",
     submitFailed: "RSVP Submit failed.",
     title: "RSVP",
     respondBy: "Please let us know if you can join us by",

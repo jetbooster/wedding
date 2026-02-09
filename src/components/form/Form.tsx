@@ -279,11 +279,7 @@ export function Form() {
           setContent({
             header: t("submitSuccessHeader"),
             message: t("submitSuccessNotAttending1"),
-            messageAdditional: [
-              t("submitSuccessNotAttending2"),
-              t("submitSuccessNotAttending3"),
-              t("submitSuccessNotAttending4"),
-            ],
+            messageAdditional: [t("submitSuccessNotAttending2")],
           });
         }
         setRsvpOpen(false);
