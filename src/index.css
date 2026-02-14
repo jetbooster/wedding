@@ -6,8 +6,8 @@
 :root {
   font-family: Roboto, Helvetica, Arial, sans-serif;
   color-scheme: light dark;
-  color: rgba(60, 60, 60, 0.87);
-  background-color: #fdf5d9;
+  color: #002901de;
+  background-color: #f1f1f1;
 }
 
 .fancy {
@@ -27,7 +27,7 @@
   left: 0;
   width: 30vw;
   height: 100vh;
-  box-shadow: inset max(-30vw, -250px) 0px 100px -100px #fdf5d9;
+  box-shadow: inset max(-30vw, -250px) 0px 100px -100px #f1f1f1;
   background-image: url("./images/2.jpg");
   /* background-size:contain; */
   background-repeat: no-repeat;
@@ -47,7 +47,7 @@
   right: 0;
   width: 30vw;
   height: 100vh;
-  box-shadow: inset min(30vw, 250px) 0px 100px -100px #fdf5d9;
+  box-shadow: inset min(30vw, 250px) 0px 100px -100px #f1f1f1;
   background-image: url("./images/1.jpg");
   /* background-size: contain; */
   background-repeat: no-repeat;

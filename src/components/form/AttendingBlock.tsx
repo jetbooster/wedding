@@ -61,7 +61,7 @@ const AttendingBlock: FC<AttendingBlock> = ({
           defaultValue={name}
           onChange={handleNameChange}
           error={nameFormError}
-          sx={{ backgroundColor: "#ffffe6" }}
+          sx={{ backgroundColor: "#fafafa" }}
         />
       </FormControl>
       <FormControl fullWidth>
@@ -71,7 +71,7 @@ const AttendingBlock: FC<AttendingBlock> = ({
         <ToggleButtonGroup
           id="attending"
           color={attending === "yes" ? "secondary" : "error"}
-          sx={{ backgroundColor: "#ffe" }}
+          sx={{ backgroundColor: "#fafafa" }}
           value={attending}
           exclusive
           onChange={handleAttending}
@@ -81,14 +81,14 @@ const AttendingBlock: FC<AttendingBlock> = ({
           <ToggleButton
             value="yes"
             aria-label="yes"
-            sx={{ border: 1, textTransform: "none", color: "#222" }}
+            sx={{ border: 1, textTransform: "none" }}
           >
             {t("attendingBlock.attending.yes")}
           </ToggleButton>
           <ToggleButton
             value="no"
             aria-label="no"
-            sx={{ border: 1, textTransform: "none", color: "#222" }}
+            sx={{ border: 1, textTransform: "none" }}
           >
             {t("attendingBlock.attending.no")}
           </ToggleButton>

@@ -9,7 +9,6 @@ export const OutlinedInput = (props: OutlinedInputProps) => (
     sx={{
       ...props.sx,
       // Override input background color to whitish
-      backgroundColor: "#ffffe6",
     }}
   />
 );

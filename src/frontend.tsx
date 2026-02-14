@@ -10,7 +10,7 @@ import { createRoot } from "react-dom/client";
 import { App } from "./App";
 import { BrowserRouter } from "react-router";
 import { createTheme, ThemeProvider } from "@mui/material";
-import { blue, green } from "@mui/material/colors";
+import { green } from "@mui/material/colors";
 import { UserProvider } from "./context/UserContext";
 import { MealProvider } from "./context/MealContext";
 import { DialogProvider } from "./context/DialogContext";
@@ -19,13 +19,16 @@ import "./i18n/config";
 const theme = createTheme({
   palette: {
     primary: {
-      main: blue[900],
+      main: "#002901de",
     },
     secondary: {
       main: green[400],
     },
     background: {
-      paper: "#fcf3c7",
+      paper: "#f8f8f8",
+    },
+    text: {
+      primary: "#002901de",
     },
   },
   typography: {
