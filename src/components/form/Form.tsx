@@ -385,7 +385,7 @@ export function Form() {
                   />
                 </motion.div>
               )}
-              {attending === "no" && partnerAttending === "no" && (
+              {attending === "no" && (user?.allowed_partner ? partnerAttending === "no":true) && (
                 <motion.div
                   key="no"
                   style={{ textAlign: "left" }}
