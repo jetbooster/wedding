@@ -29,7 +29,12 @@ export const Details = () => {
   return (
     <ThemeProvider theme={theme}>
       <Paper
-        sx={{ padding: 1, zIndex: 20, position: "relative", marginTop: "30vh" }}
+        sx={{
+          padding: 1,
+          zIndex: 20,
+          position: "relative",
+          marginTop: { xs: "10vh", lg: "30vh" },
+        }}
         className={"details"}
       >
         <h2 className="fancy">Details</h2>
