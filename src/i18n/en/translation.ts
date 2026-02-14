@@ -11,14 +11,14 @@ export default {
     childName: "Child {{count}} Name:",
     bringOwnFood: "We will be bringing our own food for them",
     highchair: "They will require a highchair",
-    description: "Please provide a 3-course Children's Meal (Starter: [Menu], Main: [Menu], Dessert: [Menu] TO ADD",
+    description: "Please provide a 3-course Children's Meal (Starter: Chicken Strips with BBQ Sauce, Main: Tomato Linguini, Dessert: Chocolate Chip Cookie",
   },
   common: {
     and: "&",
     button: {
       submit: "Submit {{extra}}",
       back: "Back to Home",
-      tryAgain:"Try Again"
+      tryAgain: "Try Again"
     },
   },
   details: {
@@ -81,12 +81,12 @@ export default {
   invited: {
     "1": "You're Invited!",
     "2": "To the Wedding of",
-    "2_alt":"The Wedding of",
+    "2_alt": "The Wedding of",
     "3": "&",
     firstPlaceholder: "First Name",
     lastPlaceholder: "Last Name",
     query: "We can't wait to celebrate with you. To get started, please enter your name as it appears on your invitation.",
-    query2:"If you're RSVPing for a family or couple, just enter one of your names to see the whole group.",
+    query2: "If you're RSVPing for a family or couple, just enter one of your names to see the whole group.",
     error: {
       userNotFound: "We couldn't find a match for that name.",
       userNotFound2: "We're having trouble finding you",
@@ -134,11 +134,12 @@ export default {
   },
   mealSelector: {
     title: "The Menu. Please select your{{- partner_possessive}} choices for the wedding breakfast below:",
-    starter: "the starter",
-    main: "the main",
-    dessert: "the desert",
+    starter: "starter",
+    main: "main",
+    dessert: "desert",
     partner: " Partner",// keep the space at the front
     partner_possessive: " partner's", // keep the space
-    placeholder:"Select{{partner}} {{type}}"
+    placeholder: "Select {{type}}",
+    placeholder_partner: "Select partner's {{type}}"
   },
 } as const;

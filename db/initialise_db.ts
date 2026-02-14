@@ -67,15 +67,51 @@ export default (db: Database) => {
   });
 
   insertFoods([
-    { $desc_fr:"",$desc_en: "Ham hock croquette with apple puree, celeriac and apple slaw, and micro leaf salad", $type: "starter" },
-    { $desc_fr:"",$desc_en: "Smoked haddock and new potato fishcake with dill and lemon mayonnaise, gem", $type: "starter" },
-    { $desc_fr:"",$desc_en: "Roast tomato & red pepper soup with basil and sourdough croutons (Vegan)", $type: "starter" },
-    { $desc_fr:"",$desc_en: "Slow cooked beef shin with buttered chive mash, confit carrot, tender stem broccoli, and bourguignon sauce", $type: "main" },
-    { $desc_fr:"",$desc_en: "Baked salmon fillet with anna potatoes, spinach, dill hollandaise and herb oil", $type: "main" },
-    { $desc_fr:"",$desc_en: "Wild mushroom and spinach wellington with seasonal potatoes and vegetables, and jus (Vegan)", $type: "main" },
-    { $desc_fr:"",$desc_en: "Lemon tart with fresh raspberries and clotted cream", $type: "dessert" },
-    { $desc_fr:"",$desc_en: "Baked cheesecake with strawberry compote and a white chocolate soil", $type: "dessert" },
-    { $desc_fr:"",$desc_en: "Chocolate brownie with vanilla ice cream (Vegan)", $type: "dessert" },
+    {
+      "$desc_fr": "Croquette de jarret de porc avec purée de pomme, salade de céleri-rave et pomme, et jeunes pousses",
+      "$desc_en": "Ham hock croquette with apple puree, celeriac and apple slaw, and micro leaf salad",
+      "$type": "starter"
+    },
+    {
+      "$desc_fr": "Galette de poisson à l'aiglefin fumé et pommes de terre nouvelles, mayonnaise à l'aneth et au citron, laitue sucrine et huile de ciboulette",
+      "$desc_en": "Smoked haddock and new potato fishcake with dill and lemon mayonnaise, gem lettuce and chive oil",
+      "$type": "starter"
+    },
+    {
+      "$desc_fr": "Soupe de tomates rôties et poivrons rouges avec basilic et croûtons de levain (Végétalien)",
+      "$desc_en": "Roast tomato & red pepper soup with basil and sourdough croutons (Vegan)",
+      "$type": "starter"
+    },
+    {
+      "$desc_fr": "Paleron de bœuf confit avec purée à la ciboulette beurrée, carotte confite, brocoli à tiges tendres et sauce bourguignonne",
+      "$desc_en": "Slow cooked beef shin with buttered chive mash, confit carrot, tender stem broccoli, and bourguignon sauce",
+      "$type": "main"
+    },
+    {
+      "$desc_fr": "Filet de saumon rôti avec pommes Anna, épinards, hollandaise à l'aneth et huile d'herbes",
+      "$desc_en": "Baked salmon fillet with anna potatoes, spinach, dill hollandaise and herb oil",
+      "$type": "main"
+    },
+    {
+      "$desc_fr": "Wellington aux champignons sauvages et épinards avec pommes de terre et légumes de saison, et jus (Végétalien)",
+      "$desc_en": "Wild mushroom and spinach wellington with seasonal potatoes and vegetables, and jus (Vegan)",
+      "$type": "main"
+    },
+    {
+      "$desc_fr": "Tarte au citron avec framboises fraîches et crème caillée (clotted cream)",
+      "$desc_en": "Lemon tart with fresh raspberries and clotted cream",
+      "$type": "dessert"
+    },
+    {
+      "$desc_fr": "Cheesecake cuit au four avec compotée de fraises et terre de chocolat blanc",
+      "$desc_en": "Baked cheesecake with strawberry compote and a white chocolate soil",
+      "$type": "dessert"
+    },
+    {
+      "$desc_fr": "Brownie au chocolat avec glace à la vanille (Végétalien)",
+      "$desc_en": "Chocolate brownie with vanilla ice cream (Vegan)",
+      "$type": "dessert"
+    }
   ]);
 
 };

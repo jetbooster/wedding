@@ -58,9 +58,10 @@ export const MealSelector = ({
             input={<OutlinedInput />}
           >
             <MenuItem value={-1} disabled>
-              {t("placeholder", {
-                partner: partner ? t("partner") : "",
-                type: toTitleCase(t(type)).split(" ")[1],
+              {partner ? t("placeholder_partner", {
+                type: toTitleCase(t(type)),
+              }) : t("placeholder", {
+                type: toTitleCase(t(type)),
               })}
             </MenuItem>
             {mealOptions[type].map((option) => (
