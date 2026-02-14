@@ -58,14 +58,20 @@ export const MealSelector = ({
             input={<OutlinedInput />}
           >
             <MenuItem value={-1} disabled>
-              {partner ? t("placeholder_partner", {
-                type: toTitleCase(t(type)),
-              }) : t("placeholder", {
-                type: toTitleCase(t(type)),
-              })}
+              {partner
+                ? t("placeholder_partner", {
+                    type: toTitleCase(t(type)),
+                  })
+                : t("placeholder", {
+                    type: toTitleCase(t(type)),
+                  })}
             </MenuItem>
             {mealOptions[type].map((option) => (
-              <MenuItem key={option.food_id} value={option.food_id}>
+              <MenuItem
+                key={option.food_id}
+                value={option.food_id}
+                sx={{ textWrap: "balance" }}
+              >
                 {option[`description_${i18n.language as "en" | "fr"}`]}
               </MenuItem>
             ))}

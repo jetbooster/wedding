@@ -89,6 +89,13 @@ body {
   z-index: 20;
 }
 
+@media (max-width: 1080px) {
+  .app {
+    max-width: calc(100vw - 2rem);
+    padding: 0.5rem;
+  }
+}
+
 .appear > * {
   opacity: 0;
   transform: translate(0, 20px);
