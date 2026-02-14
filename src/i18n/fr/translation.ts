@@ -1,7 +1,7 @@
 export default {
   attendingBlock: {
     attending: {
-      label: "Serez-vous des nôres?",
+      label: "Serez-vous des nôtres?",
       no: "Décline avec regret",
       yes: "Accepte avec plaisir",
     },
@@ -24,9 +24,9 @@ export default {
   details: {
     accomodation: {
       description:
-        "Un bloc de chambres à tarif preéférentiel est dissponbible à Rookery Hall pour la nuit du mariage. Veuillexz mentionner nos noms lors de votre réservtion par téléphone.",
+        "Un bloc de chambres à tarif preéférentiel est dissponbible à Rookery Hall pour la nuit du mariage. Veuillez mentionner nos noms lors de votre réservation par téléphone.",
       nearby: "hôtels à proximité",
-      other: "Si vous souhaitez explorer d'uatres options, voici quelques",
+      other: "Si vous souhaitez explorer d'autres options, voici quelques ",
       title: "Hébergement",
     },
     contactUs: {
@@ -37,21 +37,21 @@ export default {
     },
     dateAndTime: {
       ceremony: "Cérémonie à midi",
-      longDate: "samedi, 22 août 2026",
+      longDate: "Samedi, 22 août 2026",
       seated: "Merci de prendre place à 11h45",
       title: "Date et Heure",
     },
     dressCode: {
       description:
         "Nous esperons organiser une cérémonie en plein air (si la météo le permet !). Comme cela implique de marcher sur l'herbe, nous vous conseillons de choisir vos chaussures en conséquence.",
-      dressCode: "Dress Code: Tenue de soirée exigée",
+      dressCode: "Tenue de soirée exigée",
       title: "Tenue de fête",
     },
     gifts: {
       description:
         "Votre présence à notre mariage est le plus beau cadeau que nous puissions espérer. Cependant, si vous souhaitez nous offrir un cadeau, une participation à notre voyage de noces serait sincèrement appréciée.",
       international:
-        "Invites internationaux : IBAN : GB56SRLG60837162999637 | Code SWIFT/BIC : SRLGGB2L",
+        "Invités internationaux : IBAN : GB56SRLG60837162999637 | Code SWIFT/BIC : SRLGGB2L",
       national:
         "Virement bancaire: Nom de compte : Claudine Richardson | Code guichet (Sort Code): 60-83-71 | Numéro de compte : 62999637",
       paypal: "Participer via PayPal",
@@ -74,7 +74,7 @@ export default {
         "<1>L'aéoroport le plus proche est <2>l'aéroport de Manchester</2>, à environ 40 minutes de route. Vous trouverez l'itinéraire Google Maps <3>ici</3>.</1>",
       parking: "Il y a de nombreuses places de parking disponibles gratuitement sure place.",
       taxis:
-        "<1>Rookery Hall est située en zone rurale, nous vous conseillons de réserver vos taxis à l'avance via <2>A Star Taxis</2>(<3>+44 1270 895 044</3>).</1>",
+        "<1>Rookery Hall est située en zone rurale, nous vous conseillons de réserver vos taxis à l'avance via <2>A Star Taxis</2> (<3>+44 1270 895 044</3>).</1>",
       title: "Transport",
     },
   },
@@ -86,7 +86,7 @@ export default {
     firstPlaceholder: "Prénom",
     lastPlaceholder: "Nom",
     query: "Nous avons hâtes de fêter cet événement avec vous. Pour commencer, veuillez saisir votre nom tel qu'il appararaît sure votre invitation.",
-    query2: "Si vous répondez pour une famille ou un couple, il vous suffit de saisir l'un de vos nm pour afficher tout le groupe.",
+    query2: "Si vous répondez pour une famille ou un couple, il vous suffit de saisir l'un de vos nom pour afficher tout le groupe.",
     error: {
       userNotFound: "Nous n'avons trouvé aucun résultat pour ce nom.",
       userNotFound2: "Nous avons des difficutés à vous trouver dans la liste.",
@@ -97,7 +97,7 @@ export default {
   },
   isAttending: {
     children:
-      "Combien d'enfants seront présents? Nous serions ravis de les voir parmi nous, mais si vous préférez profiter de notes mariage pour vous offrir une soirée de repos bien mértée, nous comprendrons tout à fait.",
+      "Combien d'enfants seront présents? Nous serions ravis de les voir parmi nous, mais si vous préférez profiter de notre mariage pour vous offrir une soirée de repos bien mértée, nous comprendrons tout à fait.",
     dietry:
       "Merci de nous indiquer si vous êtes végétarien, végétalien (vegan) ou si vous avez des allergies alimentaires ou des besoins diétiques particuliers au sein de votre groupe, afin que nous puissions en informer le chef.",
     notes:
@@ -119,7 +119,7 @@ export default {
     submitSuccessBody2: "N'hesitez pas à revenir quand vous le souhaite pour consulter les détails de la journée.",
     submitSuccessAttending: "Nous avons hâte de vous retrouver le 22 août !",
     submitSuccessNotAttending1:
-      "Si vous changez d'avis avan le 1er juillet, il vous suffit de revenir sure ce site pour mettre à jour votre réponse.",
+      "Si vous changez d'avis avant le 1er juillet, il vous suffit de revenir sure ce site pour mettre à jour votre réponse.",
     submitSuccessNotAttending2: "Avec toute notre affection, Sam et Claudine",
     submitFailed: "Échec de l'envoi de votre RSVP.",
     title: "Confirmation de présence",

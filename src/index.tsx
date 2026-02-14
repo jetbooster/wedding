@@ -363,10 +363,10 @@ const server = serve({
     // Echo console logs from the browser to the server
     console: true,
   },
-  tls: {
+  tls: (process.env.TLS === "true") ? {
     key: Bun.file("/etc/localcerts/localhost.key"),
     cert: Bun.file("/etc/localcerts/localhost.crt"),
-  },
+  }:undefined,
 });
 
 console.log(`🚀 Server running at ${server.url}`);
