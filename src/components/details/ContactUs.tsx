@@ -15,7 +15,7 @@ const ContactUs: FC = () => {
         Claudine: <Link href="tel:+447948347550">+44 7948 347 550</Link>
       </Typography>
       <Typography>
-        {new Date() > new Date("2026-08-21T00:00:00.000Z") && (
+        {new Date() > new Date("2026-08-14T00:00:00.000Z") && (
           <Trans
             i18nKey="details.contactUs.nat"
             components={{
