@@ -53,10 +53,10 @@ export const Details = () => {
               <DressCode />
             </Grid>
             <OrderOfTheDay />
-            <Gifts />
-            <Transport />
-            <ContactUs />
             <Accomodation />
+            <ContactUs />
+            <Transport />
+            <Gifts />
           </Grid>
           <Grid container size={1} columns={1}>
             <Grid size={1}>

@@ -49,7 +49,7 @@ export default {
     },
     gifts: {
       description:
-        "Your presence at our wedding is the greatest gift we could ask for. However, if you do wish to give a gift, a donation toward our honeymoon fund would be sincerely appreciated.",
+        "Your presence at our wedding is the greatest gift we could ask for. However, if you do wish to give a gift, a contribution toward our honeymoon fund would be sincerely appreciated.",
       international:
         "International Guests: IBAN:GB56SRLG60837162999637 | SWIFT/BIC: SRLGGB2L",
       national:
@@ -124,7 +124,7 @@ export default {
     submitFailed: "RSVP Submit failed.",
     title: "RSVP",
     respondBy: "Please let us know if you can join us by",
-    respondByDate: "Wednesday 22nd July, 2026",
+    respondByDate: "Wednesday 1st July, 2026",
     description:
       "<1>Welcome {{- names}}. We are so excited to share our day with you. If this isn't you, please <2>click here to sign in as someone else.</2></1>",
     descriptionReceived:
