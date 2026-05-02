@@ -57,7 +57,7 @@ const AttendingBlock: FC<AttendingBlock> = ({
         </Typography>
         <OutlinedInput
           fullWidth
-          id="name"
+          id={isPartner?"partnerName":"name"}
           defaultValue={name}
           onChange={handleNameChange}
           error={nameFormError}

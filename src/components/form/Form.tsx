@@ -240,7 +240,7 @@ export function Form() {
     if (dirty && event.target.value && event.target.value.length > 0) {
       setDirty(false);
     }
-    setName(event.target.value);
+    setPartnerName(event.target.value);
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
